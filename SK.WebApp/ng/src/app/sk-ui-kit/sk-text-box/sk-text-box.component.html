@@ -1,0 +1,12 @@
+<dx-text-box #dxTextBox
+             *ngIf="mode != 'number'"
+             [(value)]="value"
+             valueChangeEvent="keyup change"
+             [placeholder]="placeholder"
+             [mode]="mode"
+             [showClearButton]="false"
+             [isValid]="!errorMessage"
+             [validationError]="{ message: errorMessage }">
+</dx-text-box>
+
+<dx-number-box #dxTextBox *ngIf="mode == 'number'" [(value)]="value" valueChangeEvent="keyup change" [placeholder]="placeholder" [showClearButton]="showClearButton" [isValid]="!errorMessage" [validationError]="{ message: errorMessage }"></dx-number-box>

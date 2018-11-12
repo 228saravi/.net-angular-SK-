@@ -1,0 +1,10 @@
+<div #button style="display: inline-block">
+  <dx-button text="..." style="min-width: 2em; height: 2em" (click)="contextMenu.instance.show(); $event.stopPropagation(); $event.preventDefault();"></dx-button>
+</div>
+
+<dx-context-menu #contextMenu
+                 [target]="button"
+                 [position]="{ my: 'top right', at: 'bottom right' }"
+                 (onItemClick)="onItemClick($event);  ">
+  <dxi-item [text]="item.text" *ngFor="let item of items"></dxi-item>
+</dx-context-menu>

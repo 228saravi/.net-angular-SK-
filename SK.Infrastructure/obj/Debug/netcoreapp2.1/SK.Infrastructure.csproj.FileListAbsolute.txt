@@ -1,0 +1,14 @@
+C:\Data\sk\sk\SK\SK.Infrastructure\bin\Debug\netcoreapp2.1\SK.Infrastructure.deps.json
+C:\Data\sk\sk\SK\SK.Infrastructure\bin\Debug\netcoreapp2.1\SK.Infrastructure.dll
+C:\Data\sk\sk\SK\SK.Infrastructure\bin\Debug\netcoreapp2.1\SK.Infrastructure.pdb
+C:\Data\sk\sk\SK\SK.Infrastructure\bin\Debug\netcoreapp2.1\SK.Database.dll
+C:\Data\sk\sk\SK\SK.Infrastructure\bin\Debug\netcoreapp2.1\SK.Domain.dll
+C:\Data\sk\sk\SK\SK.Infrastructure\bin\Debug\netcoreapp2.1\SK.Domain.pdb
+C:\Data\sk\sk\SK\SK.Infrastructure\bin\Debug\netcoreapp2.1\SK.Database.pdb
+C:\Data\sk\sk\SK\SK.Infrastructure\obj\Debug\netcoreapp2.1\SK.Infrastructure.csprojAssemblyReference.cache
+C:\Data\sk\sk\SK\SK.Infrastructure\obj\Debug\netcoreapp2.1\SK.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Data\sk\sk\SK\SK.Infrastructure\obj\Debug\netcoreapp2.1\SK.Infrastructure.AssemblyInfoInputs.cache
+C:\Data\sk\sk\SK\SK.Infrastructure\obj\Debug\netcoreapp2.1\SK.Infrastructure.AssemblyInfo.cs
+C:\Data\sk\sk\SK\SK.Infrastructure\obj\Debug\netcoreapp2.1\SK.Infrastructure.csproj.CopyComplete
+C:\Data\sk\sk\SK\SK.Infrastructure\obj\Debug\netcoreapp2.1\SK.Infrastructure.dll
+C:\Data\sk\sk\SK\SK.Infrastructure\obj\Debug\netcoreapp2.1\SK.Infrastructure.pdb

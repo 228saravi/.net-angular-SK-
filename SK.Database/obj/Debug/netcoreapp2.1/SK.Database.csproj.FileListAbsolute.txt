@@ -1,0 +1,9 @@
+C:\Data\sk\sk\SK\SK.Database\bin\Debug\netcoreapp2.1\SK.Database.deps.json
+C:\Data\sk\sk\SK\SK.Database\bin\Debug\netcoreapp2.1\SK.Database.dll
+C:\Data\sk\sk\SK\SK.Database\bin\Debug\netcoreapp2.1\SK.Database.pdb
+C:\Data\sk\sk\SK\SK.Database\obj\Debug\netcoreapp2.1\SK.Database.csprojAssemblyReference.cache
+C:\Data\sk\sk\SK\SK.Database\obj\Debug\netcoreapp2.1\SK.Database.csproj.CoreCompileInputs.cache
+C:\Data\sk\sk\SK\SK.Database\obj\Debug\netcoreapp2.1\SK.Database.AssemblyInfoInputs.cache
+C:\Data\sk\sk\SK\SK.Database\obj\Debug\netcoreapp2.1\SK.Database.AssemblyInfo.cs
+C:\Data\sk\sk\SK\SK.Database\obj\Debug\netcoreapp2.1\SK.Database.dll
+C:\Data\sk\sk\SK\SK.Database\obj\Debug\netcoreapp2.1\SK.Database.pdb

@@ -1,0 +1,89 @@
+@import "../../_styles/sk-variables.scss";
+
+:host {
+  display: block;
+
+  ::ng-deep {
+    dx-button.dx-button {
+      height: 32px;
+      font-size: 14px;
+      font-family: $sk-font-family;
+
+      .dx-button-content {
+        padding: 8px 16px 7px;
+
+        .dx-button-text {
+          @extend %semi-bold-text;
+          line-height: 1em;
+          color: #FFFFFF;
+        }
+      }
+
+      &, &.dx-state-disabled, &.dx-state-focused, &.dx-state-hover {
+        background-color: $sk-accent-color-01;
+      }
+
+      &.dx-state-focused, &.dx-state-hover, &.dx-state-active {
+        background-color: darken($sk-accent-color-01, 5%);
+      }
+    }
+  }
+
+  &.big {
+    ::ng-deep {
+      dx-button.dx-button {
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+  }
+
+  &.full-width {
+    ::ng-deep {
+      dx-button.dx-button {
+        width: 100%;
+      }
+    }
+  }
+
+  &.flat {
+    ::ng-deep {
+      dx-button.dx-button {
+
+        .dx-button-text {
+          color: $sk-accent-color-01;
+        }
+
+        &, &.dx-state-disabled {
+          background: none;
+          box-shadow: none;
+        }
+
+        &.dx-state-hover, &.dx-state-focused, &.dx-state-active {
+          background-color: lighten($sk-accent-color-01, 58%);
+        }
+      }
+    }
+  }
+
+  &.context {
+    ::ng-deep {
+      dx-button.dx-button {
+
+        .dx-button-text {
+          text-transform: lowercase;
+          color: $sk-accent-color-01;
+        }
+
+        &, &.dx-state-disabled {
+          background: none;
+          box-shadow: none;
+        }
+
+        &.dx-state-hover, &.dx-state-focused, &.dx-state-active {
+          background-color: lighten($sk-accent-color-01, 58%);
+        }
+      }
+    }
+  }
+}

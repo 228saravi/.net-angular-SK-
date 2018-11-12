@@ -1,0 +1,126 @@
+<dx-popup #popup
+          title="Пригласить эксперта"
+          [showTitle]="false"
+          width="429px"
+          height="580px"
+          [closeOnBackButton]="false"
+          [closeOnOutsideClick]="true"
+          (onHiding)="onHidding($event)"
+          (onHidden)="onHidden()">
+  <div *dxTemplate="let data of 'content'">
+
+    <div class="sk-connect-company-to-expert-popup-content" *ngIf="vm && vm.company != null && vm.event == null">
+
+      <div class="buttons">
+        <div></div>
+        <sk-button class="flat" text="Закрыть" (click)="hide()"></sk-button>
+      </div>
+
+      <div class="header">
+        На какое мероприятие Вы бы хотели пригласить эксперта
+      </div>
+
+      <div class="body">
+
+        <dx-scroll-view width="100%" height="100%" direction="both" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0;">
+
+          <div class="sk-connect-company-to-expert-popup-cards">
+
+            <div class="placeholder" *ngIf="vm?.company?.events?.length == 0">
+              Нет опубликованных мероприятий
+            </div>
+
+            <ng-container *ngFor="let event of vm.company.events">
+
+              <div class="card">
+                <div class="header">
+                  {{event.name}}
+                </div>
+                <div class="field">
+                  <div class="label" style="width: 30px">
+                    <img src="../../../assets/sk-calendar-icon.svg" />
+                  </div>
+                  <div class="value">{{event.startTime | time}} - {{event.endTime | time}}</div>
+                </div>
+                <div class="field">
+                  <div class="label" style="width: 30px">
+                    <img src="../../../assets/sk-place-point-icon.svg" />
+                  </div>
+                  <div class="value">{{event.address}}</div>
+                </div>
+                <div class="controls">
+                  <div class="left">
+                    <div class="sk-vacancies-data">
+                      <div>
+                        <img src="../../../assets/sk-cook-icon.svg" />
+                        <span>{{event?.connectedCooksCount || 0}}/{{event?.totalCooksCount || 0}}</span>
+                      </div>
+                      <div>
+                        <img src="../../../assets/sk-barman-icon.svg" />
+                        <span>{{event.connectedBarmansCount || 0}}/{{event.totalBarmansCount || 0}}</span>
+                      </div>
+                      <div>
+                        <img src="../../../assets/sk-waiter-icon.svg" />
+                        <span>{{event.connectedWaitersCount || 0}}/{{event.totalWaitersCount || 0}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="right">
+                    <sk-button text="Пригласить" (click)="vm.selectEvent(event.id)"></sk-button>
+                  </div>
+                </div>
+              </div>
+
+            </ng-container>
+
+          </div>
+        </dx-scroll-view>
+
+      </div>
+
+    </div>
+
+    <div class="sk-connect-company-to-expert-popup-content" *ngIf="vm && vm.event != null">
+
+      <div class="buttons">
+        <sk-button class="flat" text="Назад" (click)="vm.deselectEvent()">Назад</sk-button>
+        <sk-button class="flat" text="Закрыть" (click)="hide()"></sk-button>
+      </div>
+
+      <div class="header">
+        На какую вакансию Вы бы хотели пригласить эксперта 
+      </div>
+
+      <div class="body">
+        <dx-scroll-view>
+          <div class="sk-connect-company-to-expert-popup-cards">
+
+            <div class="placeholder" *ngIf="vm?.vacancies?.length == 0">
+              Нет опубликованных вакансий
+            </div>
+
+            <div class="card" *ngFor="let vac of vm.vacancies">
+              <div class="header">{{vac.speciality.specialization ? vac.speciality.specialization.name : vac.speciality.name}}</div>
+              <div class="field">
+                <div class="label">Ставка</div>
+                <div class="value">{{vac.ratePerHour}} р/ч</div>
+              </div>
+              <div class="field">
+                <div class="label">Стаж</div>
+                <div class="value">{{vac?.experience?.name || 'Не указано'}}</div>
+              </div>
+
+              <div style="position: absolute; right: 16px; bottom: 16px;">
+                <div class="sk-status" *ngIf="vac.connection">Приглашён</div>
+                <sk-button *ngIf="!vac.connection" text="Пригласить" (click)="vm.selectVacancy(vac.id)"></sk-button>
+              </div>
+
+            </div>
+          </div>
+        </dx-scroll-view>
+      </div>
+
+    </div>
+
+  </div>
+</dx-popup>

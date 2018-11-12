@@ -1,0 +1,110 @@
+<div class="select-type-step" *ngIf="vm.step == 'selectType'">
+  <div class="logo">
+    <img src="../../../assets/sk-logo-black.svg" (click)="vm.step = 'selectType'" />
+  </div>
+  <div class="header">
+    Кто Вы в ресторанной сфере?
+  </div>
+  <div class="buttons">
+    <div class="button" (click)="vm.selectTypeStep.type = 'expert'; vm.step = 'selectSpeciality';">
+      <div class="image">
+        <img src="../../../assets/sk-specialists-icon.svg" />
+      </div>
+      <span>Специалист</span>
+    </div>
+    <div class="button" (click)="vm.selectTypeStep.type = 'company'; vm.step = 'selectSpeciality';">
+      <div class="image">
+        <img src="../../../assets/sk-company-icon.svg" />
+      </div>
+      <span>Работодатель</span>
+    </div>
+  </div>
+  <div class="controls left">
+    <div>
+      <sk-button class="big" text="О нас" (click)="onAboutUsClick()"></sk-button>
+    </div>
+  </div>
+  <div class="controls right">
+    <div>
+      <sk-button class="big" text="Войти" (click)="onAuthorizeClicked()"></sk-button>
+    </div>
+  </div>
+</div>
+
+<div class="select-speciality-step" *ngIf="vm.step == 'selectSpeciality'">
+
+  <div class="logo">
+    <img src="../../../assets/sk-logo-black.svg" (click)="vm.step = 'selectType'" />
+  </div>
+  <div class="header">
+    <ng-container *ngIf="vm?.selectTypeStep?.type == 'company'">Кого Вы ищете?</ng-container>
+    <ng-container *ngIf="vm?.selectTypeStep?.type == 'expert'">Ваша специальность?</ng-container>
+  </div>
+  <div class="buttons">
+    <div class="button" (click)="vm.selectSpecialityStep.specialityId = 'Cook'; vm.step = 'selectCity';">
+      <div class="image">
+        <img src="../../../assets/sk-cook-icon-02.svg" />
+      </div>
+      <span>Повар</span>
+    </div>
+    <div class="button" (click)="vm.selectSpecialityStep.specialityId = 'Barman'; vm.step = 'selectCity';">
+      <div class="image">
+        <img src="../../../assets/sk-barman-icon-02.svg" />
+      </div>
+      <span>Бармен</span>
+    </div>
+    <div class="button" (click)="vm.selectSpecialityStep.specialityId = 'Waiter'; vm.step = 'selectCity';">
+      <div class="image">
+        <img src="../../../assets/sk-waiter-icon-02.svg" />
+      </div>
+      <span>Официант</span>
+    </div>
+  </div>
+  <div class="controls left">
+    <div>
+      <sk-button class="big" text="О нас" (click)="onAboutUsClick()"></sk-button>
+    </div>
+  </div>
+  <div class="controls right">
+    <div>
+      <sk-button class="big" text="Войти" (click)="onAuthorizeClicked()"></sk-button>
+    </div>
+  </div>
+</div>
+
+<div class="select-city-step" *ngIf="vm.step == 'selectCity'">
+
+  <div class="logo">
+    <img src="../../../assets/sk-logo-black.svg" (click)="vm.step = 'selectType'" />
+  </div>
+  <div class="header">
+    Город для поиска
+  </div>
+
+  <div class="buttons">
+    <div class="button" (click)="vm.selectCityStep.cityId = 'Msk'; onReadyClick();">
+      <div class="image">
+        <img src="../../../assets/sk-moscow-icon.svg" />
+      </div>
+      <span>Москва</span>
+    </div>
+    <div class="button" (click)="vm.selectCityStep.cityId = 'Spb'; onReadyClick();">
+      <div class="image">
+        <img src="../../../assets/sk-spb-icon.svg" />
+      </div>
+      <span>Санкт-Петербург</span>
+    </div>
+  </div>
+  <div class="controls left">
+    <div>
+      <sk-button class="big" text="О нас" (click)="onAboutUsClick()"></sk-button>
+    </div>
+  </div>
+  <div class="controls right">
+    <div>
+      <sk-button class="big" text="Войти" (click)="onAuthorizeClicked()"></sk-button>
+    </div>
+  </div>
+
+</div>
+

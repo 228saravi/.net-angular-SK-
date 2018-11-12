@@ -1,0 +1,91 @@
+@import "../../_styles/sk-variables.scss";
+
+$sk-nav-text-color: #FFFFFF;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 0 $sk-grid-offset * 8;
+  background-color: $sk-main-color;
+  color: $sk-nav-text-color;
+
+  & > div.logo {
+    position: relative;
+    width: calc((100% - #{$sk-content-width}) / 2);
+
+    & > img {
+      display: block;
+      width: 56px;
+      height: 56px;
+      cursor: pointer;
+    }
+  }
+
+  & > div.nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    & > a.item,
+    & > button.item {
+      padding: 0;
+      border: none;
+      border-bottom: solid 1px transparent;
+      background: none;
+      font-family: $sk-font-family;
+      font-size: 14px;
+      color: fade-out($sk-nav-text-color, 0.4);
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+
+      &:not(:last-child) {
+        margin-right: $sk-grid-offset * 8;
+      }
+
+      &:hover {
+        border-bottom: solid 1px $sk-accent-color-01;
+      }
+
+      &.active {
+        color: $sk-nav-text-color;
+        border-bottom: solid 1px transparent;
+      }
+
+      &.account {
+        font-weight: 600;
+        text-transform: none;
+        margin-right: $sk-grid-offset * 2;
+      }
+
+      &.img {
+        border: none;
+        margin-right: $sk-grid-offset * 9;
+
+        & > img {
+          object-fit: cover;
+          object-position: top;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    &.main {
+      width: $sk-content-width;
+    }
+
+    &.last {
+      justify-content: flex-end;
+      width: calc((100% - #{$sk-content-width}) / 2);
+    }
+  }
+}

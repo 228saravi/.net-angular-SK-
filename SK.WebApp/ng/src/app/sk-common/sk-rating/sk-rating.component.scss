@@ -1,0 +1,33 @@
+@import '../../_styles/sk-variables.scss';
+
+:host {
+  position: relative;
+  top: 0.1em;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 1.2em;
+  line-height: 1em;
+  background-color: $sk-highlight-color;
+  font-weight: bold;
+  padding: 0 0.3em;
+  border-radius: 0.15em;
+
+  & > img.star {
+    margin-right: 0.1em;
+    width: 1em;
+    height: 1em;
+  }
+
+  & > span.number {
+    @extend %semi-bold-text;
+    font-size: 1em;
+    font-weight: 600;
+  }
+
+  &.block {
+    display: flex;
+    /*top: 0;*/
+  }
+}

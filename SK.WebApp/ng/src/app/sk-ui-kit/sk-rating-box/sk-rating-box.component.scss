@@ -1,0 +1,26 @@
+@import '../../_styles/sk-variables.scss';
+
+:host {
+  display: block;
+  width: 100%;
+
+  button.star {
+    width: 37px;
+    height: 37px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    margin-right: $sk-grid-offset * 5;
+    background-size: cover;
+    background-image: url(../../../assets/sk-not-selected-star-icon.svg);
+
+    &.selected {
+      background-image: url(../../../assets/sk-selected-star-icon.svg);
+    }
+  }
+
+  div.error-message {
+    color: red;
+  }
+}

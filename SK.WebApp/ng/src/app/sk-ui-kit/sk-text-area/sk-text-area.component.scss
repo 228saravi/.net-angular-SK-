@@ -1,0 +1,9 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    textarea{
+      min-height: 37px; // MS Edge fix. Devextreme sets 17px height of this element by default. In Chrome it is 37px.
+    }
+  }
+}

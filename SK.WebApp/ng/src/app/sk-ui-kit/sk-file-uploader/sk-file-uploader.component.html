@@ -1,0 +1,8 @@
+<sk-button class="context full-width" text="Загрузить фото" (click)="onClick()"></sk-button>
+<dx-file-uploader #uploader
+                  style="display: none"
+                  [uploadUrl]="uploadUrl"
+                  [disabled]="disabled"
+                  (onUploaded)="onUploaded()"
+                  (onUploadError)="onUploadError($event)">
+</dx-file-uploader>

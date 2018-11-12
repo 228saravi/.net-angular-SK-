@@ -1,0 +1,43 @@
+@import '../../_styles/sk-variables.scss';
+
+sk-date-box {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  & > dx-date-box {
+    display: block;
+    width: 100% !important;
+  }
+
+  .dx-invalid-message > .dx-overlay-content {
+    padding: 0;
+
+    .dx-texteditor:not(.dx-textarea) .dx-texteditor-container:after,
+    .dx-texteditor:not(.dx-textarea).dx-state-focused .dx-texteditor-container:after,
+    .dx-texteditor:not(.dx-textarea).dx-state-active .dx-texteditor-container:after {
+      border-color: $sk-main-color; // Основной цвет подчёркивания
+    }
+
+    .dx-texteditor:not(.dx-textarea) .dx-texteditor-container:before,
+    .dx-texteditor:not(.dx-textarea).dx-state-focused .dx-texteditor-container:before,
+    .dx-texteditor:not(.dx-textarea).dx-state-active .dx-texteditor-container:before {
+      border-color: $sk-main-color; // Цвет подчёркивания в фокусе.
+    }
+  }
+}
+
+.dx-calendar-cell.dx-calendar-selected-date span,
+.dx-calendar-cell.dx-calendar-selected-date.dx-calendar-today span {
+  background-color: $sk-main-color;
+}
+
+.dx-popup-bottom.dx-toolbar .dx-button,
+.dx-calendar-navigator .dx-button {
+  color: $sk-main-color;
+}
+
+/*.dx-timeview-hourarrow,
+.dx-timeview-minutearrow {
+  filter: grayscale(100%);
+}*/

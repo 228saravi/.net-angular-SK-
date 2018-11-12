@@ -1,0 +1,12 @@
+<div class="basic-fields">
+  <div>
+    <sk-select-box [(value)]="vm.vacanciesFilterData.cityId" (valueChange)="onSearchClicked()" [items]="vm.allCities" placeholder="Город..." valueExpr="id" displayExpr="name" [showDropDownButton]="false" [showClearButton]="true"></sk-select-box>
+  </div>
+  <div>
+    <sk-text-box mode="number" [(value)]="vm.vacanciesFilterData.minRatePerHour" (valueChange)="onSearchClicked()" placeholder="Минимальная ставка в час..." [showClearButton]="true"></sk-text-box>
+  </div>
+</div>
+
+<div class="specialities">
+  <sk-specialities-selections [(specialitiesSelectionData)]="vm.vacanciesFilterData.specialitiesSelectionData" (specialitiesSelectionDataChange)="onSearchClicked()"></sk-specialities-selections>
+</div>

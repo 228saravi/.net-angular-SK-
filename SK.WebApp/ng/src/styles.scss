@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*
+  Для обновления темы нужно зайти на https://js.devexpress.com/ThemeBuilder/,
+  вставить там свои цвета, скачать эту тему и подменить ею содержимое css файла devextreme темы из angular.json
+*/
+
+// Стили для кнопок "поделиться".
+@import '~@ngx-share/button/styles/share-buttons';
+@import '~@ngx-share/button/styles/themes/default/default-theme';
+
+@import 'app/_styles/sk-variables.scss';
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: $sk-font-family;
+  font-size: 14px;
+  color: #000000;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:visited {
+    color: inherit;
+  }
+}
+
+[hidden], .hidden {
+  display: none !important;
+}
+
+// Devextreme overwrites
+.dx-toast-success {
+  background-color: $sk-success-color;
+}
+
+.dx-toast-error {
+  background-color: $sk-error-color;
+}
+
+.dx-tabs {
+  background: none;
+}
+
+.dx-overlay-shader {
+  background-color: #000000AA;
+}

@@ -1,0 +1,28 @@
+@import '../../_styles/sk-variables.scss';
+
+div.sk-feedback-popup-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  & > div.text {
+    @extend %bold-text;
+    font-size: 20px;
+    margin-bottom: 58px;
+    text-align: center;
+  }
+
+  & > form {
+    & > div.fields {
+      margin-bottom: 58px;
+    }
+
+    & > div.actions {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+}

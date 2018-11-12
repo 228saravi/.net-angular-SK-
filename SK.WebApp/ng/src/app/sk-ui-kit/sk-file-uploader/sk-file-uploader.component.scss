@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  ::ng-deep {
+    div.dx-fileuploader-wrapper,
+    div.dx-fileuploader-input-wrapper {
+      margin: 0;
+      padding: 0;
+      border: none;
+
+      padding-bottom: 1px;
+    }
+  }
+}

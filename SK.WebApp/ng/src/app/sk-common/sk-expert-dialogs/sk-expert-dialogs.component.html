@@ -1,0 +1,244 @@
+<div class="sk-page">
+  <div class="nav">
+    <sk-nav></sk-nav>
+  </div>
+
+  <div class="body">
+
+    <div class="sk-placeholder" *ngIf="connectionsVm?.expertConnectionsRes && connectionsVm.expertConnectionsRes.connections.length == 0">
+      <img src="../../../assets/sk-no-messages-placeholder-image-01.svg" />
+      <div class="message">У вас нет активных диалогов</div>
+    </div>
+
+    <div class="content with-scrollable-columns" [hidden]="!connectionsVm?.expertConnectionsRes || !(connectionsVm.expertConnectionsRes.connections.length > 0)">
+      <div class="column" style="width: 330px; padding: 32px 0;">
+        <ng-container *ngIf="connectionsVm">
+          <div class="sk-chat-connection"
+               [ngClass]=" { 'active': c?.id == connectionsVm?.selectedConnection?.id } "
+               *ngFor="let c of connectionsVm?.expertConnectionsRes?.connections"
+               (click)="connectionsVm.selectConnection(c.id)">
+            <div class="image">
+              <img [src]="c?.vacancy?.event?.logoImageUrl" />
+              <div class="badge" *ngIf="c?.newIncomingMessagesCount">{{c?.newIncomingMessagesCount}}</div>
+            </div>
+            <div class="name">
+              {{c?.vacancy?.event?.name}}
+            </div>
+            <div class="time">
+              {{c?.lastMessage?.time | date :'Short'}}
+            </div>
+            <div class="msg" [innerHtml]="c?.lastMessage?.body || ''">
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="column main" style="padding: 32px 15px;">
+        <div class="sk-placeholder" *ngIf="connectionsVm?.expertConnectionsRes && connectionsVm.expertConnectionsRes.connections.length > 0 && !connectionsVm.selectedConnection">
+          <img src="../../../assets/sk-no-messages-placeholder-image-02.svg" />
+          <div class="message">Выберите диалог из списка слева, чтобы увидеть все доступные сообщения</div>
+        </div>
+        <div class="sk-placeholder" *ngIf="messagesVm?.messagesRes && messagesVm.messagesRes.messages.length == 0">
+          <img src="../../../assets/sk-no-messages-placeholder-image-01.svg" />
+          <div class="message">В этом диалоге пока нет сообщений</div>
+        </div>
+        <div class="sk-chat-messages">
+          <div class="messages">
+            <dx-scroll-view #messagesScrollView
+                            style="position: absolute; top: 0; right: 0; bottom: 0; left: 0">
+              <div class="sk-chat-message"
+                   [ngClass]="{'outgoing': m.direction == ChatMessageDirections.expertToVacancy, 'incoming': m.direction == ChatMessageDirections.vacancyToExpert}"
+                   *ngFor="let m of messagesVm?.messagesRes?.messages">
+                <div class="text" [innerHtml]="m.body"></div>
+                <div class="data">
+                  <div class="date">{{m.sendTime || m.receivedTime | time}}</div>
+                  <div class="status">
+                    <ng-container *ngIf="m.direction == ChatMessageDirections.vacancyToExpert">
+                      <img src="../../../assets/sk-tick-icon-light.svg" />
+                      <img src="../../../assets/sk-tick-icon-light.svg" *ngIf="m.receiveTime" style="position: relative; left: -3px;" />
+                    </ng-container>
+                    <ng-container *ngIf="m.direction == ChatMessageDirections.expertToVacancy">
+                      <img src="../../../assets/sk-tick-icon-dark.svg" />
+                      <img src="../../../assets/sk-tick-icon-dark.svg" *ngIf="m.receiveTime" style="position: relative; left: -3px;" />
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </dx-scroll-view>
+          </div>
+          <div class="new-message" *ngIf="newMessageVm?.isReady" (keyup.control.enter)="newMessageVm.send()">
+            <div class="text">
+              <!--<sk-text-box name="message" [(ngModel)]="newMessageVm.message" placeholder="Введите сообщение..."></sk-text-box>-->
+              <sk-text-area name="messageTextArea" [(ngModel)]="newMessageVm.message" placeholder="Введите сообщение..."></sk-text-area>
+            </div>
+            <div class="buttons">
+              <button (click)="newMessageVm.send()">
+                <img src="../../../assets/sk-send-message-icon.svg" style="display: block" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column" style="width: 330px; padding: 32px 24px;">
+        <div class="sk-chat-details" *ngIf="connectionsVm?.vacancyDetails">
+          <div class="menu">
+            <div class="item" [ngClass]="{ 'active': connectionsVm.detailsMode == 'Event' }" (click)="connectionsVm.detailsMode = 'Event'">Мероприятие</div>
+            <div class="item" [ngClass]="{ 'active': connectionsVm.detailsMode == 'Vacancy' }" (click)="connectionsVm.detailsMode = 'Vacancy'">Вакансия</div>
+          </div>
+          <div class="card-slot">
+            <div class="vertical-card" *ngIf="connectionsVm?.vacancyDetails && connectionsVm?.detailsMode == 'Event'">
+              <div class="content" [ngClass]="{'blured': connectionsVm?.isCurrentEventOver}">
+                <div class="logo">
+                  <a [routerLink]="['/events', connectionsVm?.vacancyDetails?.event.id]">
+                    <img *ngIf="connectionsVm?.vacancyDetails?.event?.logoImageUrl" [src]="connectionsVm?.vacancyDetails?.event?.logoImageUrl" />
+                    <div class="no-image" *ngIf="!connectionsVm?.vacancyDetails?.event?.logoImageUrl"></div>
+                  </a>
+                </div>
+                <div class="company">
+                  <div class="logo">
+                    <a [routerLink]="['/companies', connectionsVm?.vacancyDetails?.event?.company.id]">
+                      <img *ngIf="connectionsVm?.vacancyDetails?.event?.company?.thumbnailImageUrl" [src]="connectionsVm?.vacancyDetails?.event?.company?.thumbnailImageUrl" />
+                      <div class="no-image" *ngIf="!connectionsVm?.vacancyDetails?.event?.company?.thumbnailImageUrl"></div>
+                    </a>
+                  </div>
+                  <div class="name">
+                    <a [routerLink]="['/companies', connectionsVm?.vacancyDetails?.event?.company.id]">{{connectionsVm?.vacancyDetails?.event?.company?.name}}</a>
+                  </div>
+                  <div class="rating">
+                    <sk-rating [value]="connectionsVm?.vacancyDetails?.event?.company.rating" class="block"></sk-rating>
+                  </div>
+                </div>
+                <div class="header">
+                  <div class="text" [title]="connectionsVm?.vacancyDetails?.event?.name">
+                    <a [routerLink]="['/events', connectionsVm?.vacancyDetails?.event.id]">{{connectionsVm?.vacancyDetails?.event.name || 'Не указано'}}</a>
+                  </div>
+                  <div class="extra">
+                    <span>{{connectionsVm?.vacancyDetails?.event?.type?.name || 'Не задано'}}</span>
+                    ●
+                    <span>{{connectionsVm?.vacancyDetails?.event?.format?.name || 'Не задано'}}</span>
+                  </div>
+                </div>
+                <div class="field-set">
+                  <div class="field">
+                    <div class="label icon"><img src="../../../assets/sk-calendar-icon.svg" height="14" /></div>
+                    <div class="value">{{(connectionsVm?.vacancyDetails?.event.startTime | time) || 'Начало'}} — {{(connectionsVm?.vacancyDetails?.event.endTime | time) || 'Конеец'}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label icon"><img src="../../../assets/sk-place-point-icon.svg" height="14" /></div>
+                    <div class="value">
+                      <div>{{connectionsVm?.vacancyDetails?.event?.city?.name || 'Город'}},</div>
+                      <div [title]="event?.address">{{connectionsVm?.vacancyDetails?.event?.address || 'Адрес'}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field-set">
+                  <div class="field">
+                    <div class="label">сегмент</div>
+                    <div class="value">{{connectionsVm?.vacancyDetails?.event?.segment?.name || 'Не указано'}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">гостей</div>
+                    <div class="value">{{connectionsVm?.vacancyDetails?.event?.estimatedGuestsCount || 'Не указано'}}</div>
+                  </div>
+                </div>
+                <div class="vacancies">
+                  <div class="label">вакансии</div>
+                  <div class="data">
+                    <div> <img src="../../../assets/sk-cook-icon.svg" height="16" />{{connectionsVm?.vacancyDetails?.event.connectedCooksCount}}/{{connectionsVm?.vacancyDetails?.event.totalCooksCount}}</div>
+                    <div> <img src="../../../assets/sk-barman-icon.svg" height="16" />{{connectionsVm?.vacancyDetails?.event.connectedBarmansCount}}/{{connectionsVm?.vacancyDetails?.event.totalBarmansCount}}</div>
+                    <div> <img src="../../../assets/sk-waiter-icon.svg" height="16" />{{connectionsVm?.vacancyDetails?.event.connectedWaitersCount}}/{{connectionsVm?.vacancyDetails?.event.totalWaitersCount}}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="badge v2" *ngIf="connectionsVm.isCurrentEventOver">
+                Прошедшее
+              </div>
+            </div>
+            <div class="vertical-card" *ngIf="connectionsVm?.vacancyDetails && connectionsVm?.detailsMode == 'Vacancy'">
+              <div class="content">
+                <div class="logo">
+                  <a [routerLink]="['/vacancies', connectionsVm?.vacancyDetails?.id]">
+                    <div class="vac" *ngIf="connectionsVm?.vacancyDetails?.speciality?.id">
+                      <div class="img-slot">
+                        <sk-speciality-icon [specialityId]="connectionsVm?.vacancyDetails?.speciality?.id" height="50"></sk-speciality-icon>
+                      </div>
+                      <div class="specialization">{{connectionsVm?.vacancyDetails?.speciality?.specialization ? connectionsVm?.vacancyDetails?.speciality?.specialization?.name : connectionsVm?.vacancyDetails?.speciality?.name}}</div>
+                    </div>
+                    <div class="no-image" *ngIf="!(connectionsVm?.vacancyDetails?.speciality?.id)"></div>
+                  </a>
+                </div>
+                <div class="field-set">
+                  <div class="field">
+                    <div class="label">Почасовая ставка</div>
+                    <div class="value strong" *ngIf="connectionsVm?.vacancyDetails?.ratePerHour">{{connectionsVm?.vacancyDetails?.ratePerHour}} р/ч</div>
+                    <div class="value" *ngIf="!connectionsVm?.vacancyDetails?.ratePerHour">Не указано</div>
+                  </div>
+                </div>
+                <div class="field-set">
+                  <div class="field">
+                    <div class="label icon"><img src="../../../assets/sk-calendar-icon.svg" height="14" /></div>
+                    <div class="value">{{connectionsVm?.vacancyDetails?.startTime | time}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label icon"><img src="../../../assets/sk-place-point-icon.svg" height="14" /></div>
+                    <div class="value">
+                      <div>{{connectionsVm?.vacancyDetails?.event?.city?.name || 'Не указано'}},</div>
+                      <div [title]="vm?.event?.address">{{connectionsVm?.vacancyDetails?.event?.address || 'Не указано'}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field-set">
+                  <div class="field">
+                    <div class="label">рабочих часов</div>
+                    <div class="value" *ngIf="connectionsVm?.vacancyDetails?.workingHours">{{connectionsVm?.vacancyDetails?.workingHours}} ч</div>
+                    <div class="value" *ngIf="!connectionsVm?.vacancyDetails?.workingHours">Не указано</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">стаж</div>
+                    <div class="value" *ngIf="connectionsVm?.vacancyDetails?.experience">{{connectionsVm?.vacancyDetails?.experience.name}}</div>
+                    <div class="value" *ngIf="!connectionsVm?.vacancyDetails?.experience">Не указано</div>
+                  </div>
+                  <div class="field" *ngFor="let group of connectionsVm?.vacancyDetails?.speciality?.skillsGroups">
+                    <div class="label">{{group.name}}</div>
+                    <div class="value">
+                      {{group.skills[0].name}}
+                      <span #extra class="extra" *ngIf="group.skills.length > 1" (click)="popover.instance.show()">
+                        <span>+ ещё {{group.skills.length-1}}</span>
+                        <dx-popover #popover [target]="extra">
+                          <div *dxTemplate="let data of 'content'">
+                            <div class="sk-popover-content">
+                              <div class="header">{{group.name}}</div>
+                              <ul>
+                                <li *ngFor="let s of group.skills">
+                                  {{s.name}}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </dx-popover>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="label">Гостей</div>
+                    <div class="value">{{connectionsVm?.vacancyDetails?.event?.estimatedGuestsCount || 0}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="buttons">
+            <sk-button class="big full-width" *ngIf="connectionsVm?.isCurrentConnectionCancelable" text="Отменить приглашение" (click)="cancelConnection()"></sk-button>
+            <sk-button class="big full-width" *ngIf="connectionsVm?.isCurrentConnectionFeedbackable" text="Оставить отзыв" (click)="postFeedback()"></sk-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="footer">
+    <div>
+      Footer
+    </div>
+  </div>-->
+</div>
+
+<sk-feedback-popup #feedbackPopup (feedbackPosted)="onFeedbackPosted()"></sk-feedback-popup>

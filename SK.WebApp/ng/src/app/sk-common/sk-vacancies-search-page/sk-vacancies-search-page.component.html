@@ -1,0 +1,175 @@
+<div class="sk-page">
+  <div class="nav">
+    <sk-nav></sk-nav>
+  </div>
+
+  <div class="body">
+    <div class="content with-sticky-aside">
+      <div class="aside" style="height: calc(100vh - 56px); top: 56px;">
+        <sk-vacancies-filter></sk-vacancies-filter>
+      </div>
+      <div #main class="main" style="padding: 32px 0 32px 32px;">
+
+        <sk-loader *ngIf="!vm?.res" [element]="main"></sk-loader>
+
+        <div class="sk-placeholder" *ngIf="vm?.res?.foundVacancies?.length == 0">
+          <img src="../../../assets/sk-no-results-placeholder-icon.svg" />
+          <div class="message">По выбранным критериям нет результата, попробуйте изменить фильтры чтобы увидеть интересующие вакансии</div>
+        </div>
+
+        <div class="sk-vacancies-searsh-page-cards">
+          <div class="card-slot" *ngFor="let v of vm?.res?.foundVacancies">
+
+            <div class="sk-horizontal-card vacancy">
+
+              <div class="extra">
+                <div class="event-info">
+                  <div class="name">
+                    <a [routerLink]="['/events', v?.event?.id]">
+                      {{v?.event?.name || 'Не задано'}}
+                    </a>
+                  </div>
+                  <div class="type">
+                    <span>{{v?.event?.type?.name || 'Не задано'}}</span>
+                    ●
+                    <span>{{v?.event?.format?.name || 'Не задано'}}</span>
+                  </div>
+                  <div class="company">
+                    <a class="logo" [routerLink]="['/companies', v.event.company.id]">
+                      <img [src]="v?.event?.company.thumbnailImageUrl" />
+                    </a>
+                    <a class="name" [routerLink]="['/companies', v.event.company.id]">
+                      {{v?.event?.company?.name}}
+                    </a>
+                    <div class="rating-slot">
+                      <sk-rating [value]="v?.event?.company?.rating"></sk-rating>
+                    </div>
+                    <div class="expander"></div>
+
+                  </div>
+                  <div class="field">
+                    <div class="label">Сегмент</div>
+                    <div class="value">{{v?.event?.segment?.name || 'Не задано'}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">Гостей</div>
+                    <div class="value">{{v?.event?.estimatedGuestsCount || 'Не задано'}}</div>
+                  </div>
+                  <div class="expander"></div>
+                  <div class="vacancies">
+                    <div class="label">Вакансии</div>
+                    <div class="data">
+                      <div>
+                        <img src="../../../assets/sk-cook-icon.svg" width="16" height="16" />
+                        <span>{{v?.event?.connectedCooksCount || 0}}/{{v?.event?.totalCooksCount || 0}}</span>
+                      </div>
+                      <div>
+                        <img src="../../../assets/sk-barman-icon.svg" width="16" height="16" />
+                        <span>{{v?.event?.connectedBarmansCount || 0}}/{{v?.event?.totalBarmansCount || 0}}</span>
+                      </div>
+                      <div>
+                        <img src="../../../assets/sk-waiter-icon.svg" width="16" height="16" />
+                        <span>{{v?.event?.connectedWaitersCount || 0}}/{{v?.event?.totalWaitersCount || 0}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="main">
+                <div class="header">
+                  <div class="logo-slot">
+                    <a [routerLink]="['/vacancies', v?.id]">
+                      <sk-speciality-icon [specialityId]="v?.speciality?.id" height="42"></sk-speciality-icon>
+                    </a>
+                  </div>
+                  <div class="line-1">
+                    <div class="main">
+                      <a [routerLink]="['/vacancies', v?.id]">
+                        {{v?.speciality?.specialization?.name || v?.speciality?.name || 'Не указано'}}
+                      </a>
+                    </div>
+                    <div class="extra">
+                      Требуется специалистов: {{v?.amount}}
+                    </div>
+                  </div>
+                  <div class="line-2">
+                    {{v?.ratePerHour}} р/ч
+                  </div>
+                </div>
+                <div class="field-set">
+                  <div class="field">
+                    <div class="label">Город</div>
+                    <div class="value">{{v?.event?.city?.name || 'Не указано'}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">Рабочих часов</div>
+                    <div class="value">{{v?.workingHours || 'Не указано'}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">Адрес</div>
+                    <div class="value">{{v?.event?.address || 'Не указано'}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">Стаж</div>
+                    <div class="value">{{v?.experience?.name || 'Не указано'}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">Дата</div>
+                    <div class="value">{{(v?.startTime | time) || 'Не указано'}}</div>
+                  </div>
+                  <div class="field" *ngFor="let group of v?.speciality.skillsGroups">
+                    <div class="label">{{group.name}}</div>
+                    <div class="value">
+                      <span>
+                        {{group.skills[0].name}}
+                      </span>
+                      <span #extra class="extra" *ngIf="group.skills.length > 1" (click)="popover.instance.show()">
+                        <span>+ ещё {{group.skills.length-1}}</span>
+                        <dx-popover #popover [target]="extra">
+                          <div *dxTemplate="let data of 'content'">
+                            <div class="sk-popover-content">
+                              <div class="header">{{group.name}}</div>
+                              <ul>
+                                <li *ngFor="let s of group.skills">
+                                  {{s.name}}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </dx-popover>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="bottom-line">
+                  <div class="info"></div>
+                  <div class="controls">
+                    <sk-button *ngIf="vm.canCurrentUserConnecting && !v.connection" text="Откликнуться" (click)="connect(v.id)"></sk-button>
+                    <div class="sk-status" *ngIf="v.connection?.status == ConnectionStatuses.initiated">Отклик отправлен</div>
+                    <sk-button text="Написать" *ngIf="v.connection?.status == ConnectionStatuses.connected" (click)="message(v.connection.id)"></sk-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="load-more-button-slot" *ngIf="vm?.res?.foundVacancies?.length < vm?.res?.totalCount">
+          <sk-button class="flat" text="Загрузить ещё" (click)="loadMore()"></sk-button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="footer">
+    <div>
+      Footer
+    </div>
+  </div>-->
+
+</div>
+
+<sk-publish-before-connect-popup #publishBeforeConnectPopup type="expert"></sk-publish-before-connect-popup>

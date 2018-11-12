@@ -1,0 +1,200 @@
+<div class="sk-page">
+  <div class="nav">
+    <sk-nav></sk-nav>
+  </div>
+
+  <div class="body">
+    <div class="content with-sticky-aside" style="width: 868px">
+      <div class="main" [ngClass]="{'hidden': !vm}">
+
+        <div class="sk-expert-connections-page-content" *ngIf="vm?.res && vm?.res.connections.length == 0">
+          <div class="sk-placeholder">
+            <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+            <div class="message">Вы еще не участвовали ни на одном мероприятии</div>
+            <a class="link" [routerLink]="['/vacancies']">Найти подходящие вакансии</a>
+          </div>
+        </div>
+
+        <div class="sk-expert-connections-page-content" [ngClass]="{'hidden': !(vm?.res && vm?.res.connections.length > 0)}">
+          <div class="tabs-slot">
+            <sk-tabs #connectionsTabsComponent>
+              <sk-tabs-item text="Принятые" [badge]="vm?.connectedConnections?.length" [selectedByDefault]="false" (clicked)="vm.setFilter('Connected'); updateConnectionsTabsIndexInUrl(0)"></sk-tabs-item>
+              <sk-tabs-item text="Входящие" [badge]="vm?.incomingConnections?.length" (clicked)="vm.setFilter('Incoming'); updateConnectionsTabsIndexInUrl(1)"></sk-tabs-item>
+              <sk-tabs-item text="Исходящие" [badge]="vm?.outgoingConnections?.length" (clicked)="vm.setFilter('Outgoing'); updateConnectionsTabsIndexInUrl(2)"></sk-tabs-item>
+              <sk-tabs-item text="Архивные" [badge]="vm?.archivalConnections?.length" (clicked)="vm.setFilter('Archival'); updateConnectionsTabsIndexInUrl(3)"></sk-tabs-item>
+            </sk-tabs>
+          </div>
+
+
+
+          <div class="connections">
+
+            <div class="sk-placeholder" *ngIf="vm?.filterMode == 'Connected' && vm?.filteredConnections?.length == 0">
+              <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+              <div class="message">В ближайшее время у вас нет активных вакансий по мероприятиям</div>
+              <a class="link" [routerLink]="['/vacancies']">Найти подходящие вакансии</a>
+            </div>
+
+            <div class="sk-placeholder" *ngIf="vm?.filterMode == 'Incoming' && vm?.filteredConnections?.length == 0">
+              <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+              <div class="message">Вы рассмотрели все приглашения на вакансии</div>
+              <a class="link" [routerLink]="['/vacancies']">Найти подходящие вакансии</a>
+            </div>
+
+            <div class="sk-placeholder" *ngIf="vm?.filterMode == 'Outgoing' && vm?.filteredConnections?.length == 0">
+              <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+              <div class="message">Все ваши отклики на вакансии были рассмотрены</div>
+              <a class="link" [routerLink]="['/vacancies']">Найти подходящие вакансии</a>
+            </div>
+
+            <div class="sk-placeholder" *ngIf="vm?.filterMode == 'Archival' && vm?.filteredConnections?.length == 0">
+              <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+              <div class="message">Вы еще не участвовали ни на одном мероприятии</div>
+              <a class="link" [routerLink]="['/vacancies']">Найти подходящие вакансии</a>
+            </div>
+
+            <div class="card-slot" *ngFor="let conn of vm?.filteredConnections">
+
+              <div class="sk-horizontal-card vacancy">
+
+                <div class="extra">
+                  <div class="event-info">
+                    <div class="name">
+                      <a [routerLink]="['/events', conn?.vacancy?.event?.id]">
+                        {{conn?.vacancy?.event?.name || 'Не задано'}}
+                      </a>
+                    </div>
+                    <div class="type">
+                      <span>{{conn?.vacancy?.event?.type?.name || 'Не задано'}}</span>
+                      ●
+                      <span>{{conn?.vacancy?.event?.format?.name || 'Не задано'}}</span>
+                    </div>
+                    <div class="company">
+                      <a class="logo" [routerLink]="['/companies', conn.vacancy.event.company.id]">
+                        <img [src]="conn?.vacancy?.event?.company.thumbnailImageUrl" />
+                      </a>
+                      <a class="name" [routerLink]="['/companies', conn.vacancy.event.company.id]">
+                        {{conn?.vacancy?.event?.company?.name}}
+                      </a>
+                      <div class="rating-slot">
+                        <sk-rating [value]="conn?.vacancy?.event?.company?.rating"></sk-rating>
+                      </div>
+                      <div class="expander"></div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Сегмент</div>
+                      <div class="value">{{conn?.vacancy?.event?.segment?.name || 'Не задано'}}</div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Гостей</div>
+                      <div class="value">{{conn?.vacancy?.event?.estimatedGuestsCount || 'Не задано'}}</div>
+                    </div>
+                    <div class="expander"></div>
+                    <div class="vacancies">
+                      <div class="label">Вакансии</div>
+                      <div class="data">
+                        <div>
+                          <img src="../../../assets/sk-cook-icon.svg" width="16" height="16" />
+                          <span>{{conn?.vacancy?.event?.connectedCooksCount || 0}}/{{conn?.vacancy?.event?.totalCooksCount || 0}}</span>
+                        </div>
+                        <div>
+                          <img src="../../../assets/sk-barman-icon.svg" width="16" height="16" />
+                          <span>{{conn?.vacancy?.event?.connectedBarmansCount || 0}}/{{conn?.vacancy?.event?.totalBarmansCount || 0}}</span>
+                        </div>
+                        <div>
+                          <img src="../../../assets/sk-waiter-icon.svg" width="16" height="16" />
+                          <span>{{conn?.vacancy?.event?.connectedWaitersCount || 0}}/{{conn?.vacancy?.event?.totalWaitersCount || 0}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="main">
+                  <div class="header">
+                    <div class="logo-slot">
+                      <a [routerLink]="['/vacancies', conn?.vacancy?.id]">
+                        <sk-speciality-icon [specialityId]="conn?.vacancy?.speciality?.id" height="30"></sk-speciality-icon>
+                      </a>
+                    </div>
+                    <div class="line-1">
+                      <div class="main">
+                        <a [routerLink]="['/vacancies', conn?.vacancy?.id]">
+                          {{conn?.vacancy?.speciality?.specialization?.name || conn?.vacancy?.speciality?.name || 'Не указано'}}
+                        </a>
+                      </div>
+                    </div>
+                    <div class="line-2">
+                      {{conn?.vacancy?.ratePerHour}} р/ч
+                    </div>
+                  </div>
+                  <div class="field-set">
+                    <div class="field">
+                      <div class="label">Город</div>
+                      <div class="value">{{conn?.vacancy?.event?.city?.name || 'Не указано'}}</div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Рабочих часов</div>
+                      <div class="value">{{conn?.vacancy?.workingHours || 'Не указано'}}</div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Адрес</div>
+                      <div class="value">{{conn?.vacancy?.event?.address || 'Не указано'}}</div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Стаж</div>
+                      <div class="value">{{conn?.vacancy?.experience?.name || 'Не указано'}}</div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Дата</div>
+                      <div class="value">{{(conn?.vacancy?.startTime | time) || 'Не указано'}}</div>
+                    </div>
+                    <div class="field" *ngFor="let group of conn?.vacancy?.speciality.skillsGroups">
+                      <div class="label">{{group.name}}</div>
+                      <div class="value">
+                        <span>
+                          {{group.skills[0].name}}
+                        </span>
+                        <span #extra class="extra" *ngIf="group.skills.length > 1" (click)="popover.instance.show()">
+                          <span>+ ещё {{group.skills.length-1}}</span>
+                          <dx-popover #popover [target]="extra">
+                            <div *dxTemplate="let data of 'content'">
+                              <div class="sk-popover-content">
+                                <div class="header">{{group.name}}</div>
+                                <ul>
+                                  <li *ngFor="let s of group.skills">
+                                    {{s.name}}
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </dx-popover>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bottom-line">
+                    <div class="info"></div>
+                    <div class="controls">
+                      <div class="sk-status" *ngIf="conn.status == ConnectionStatuses.canceled">Отменён</div>
+                      <sk-button class="context" *ngIf="isConnectionCancelable(conn)" text="Отменить" (click)="cancelConnection(conn.id)"></sk-button>
+                      <sk-button *ngIf="isConnectionApprovable(conn)" text="Принять" (click)="approveConnection(conn.id)"></sk-button>
+                      <sk-button *ngIf="isConnectionFeedbackable(conn)" text="Оставить отзыв" (click)="postFeedback(conn.id)"></sk-button>
+                      <sk-button *ngIf="doesConnectionAllowMessaging(conn)" text="Написать" (click)="message(conn.id)"></sk-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<dx-popover #popover></dx-popover>
+<sk-feedback-popup #feedbackPopup (feedbackPosted)="onFeedbackPosted()"></sk-feedback-popup>

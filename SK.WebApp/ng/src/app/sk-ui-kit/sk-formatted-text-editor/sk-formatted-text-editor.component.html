@@ -1,0 +1,6 @@
+<!--<div [froalaEditor]="options" [(froalaModel)]="value">
+
+</div>-->
+
+<ckeditor #editor name="editor" [(value)]="value" (change)="value = $event" [config]="options"></ckeditor>
+

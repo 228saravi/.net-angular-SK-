@@ -1,0 +1,154 @@
+@import '../../_styles/sk-page.scss';
+@import '../../_styles/sk-card.scss';
+@import '../../_styles/sk-tabs.scss';
+@import '../../_styles/sk-status.scss';
+@import '../../_styles/sk-variables.scss';
+@import '../../_styles/sk-placeholder.scss';
+
+:host {
+  position: relative;
+  display: block;
+  height: 100%;
+
+  div.sk-company-connections-page-filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    //padding: 0 15px;
+    & > div.header {
+      margin: 15px;
+      font-size: 24px;
+    }
+
+    & > div.tabs-slot {
+      margin-bottom: 15px;
+    }
+
+    & > div.controls-slot {
+      //margin-bottom: 15px;
+    }
+
+    & > div.main {
+      flex-grow: 1;
+      position: relative;
+    }
+  }
+
+  div.sk-company-connections-page-card {
+    position: relative;
+    display: block;
+    margin: 15px;
+    padding: 16px;
+    cursor: pointer;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+
+    & > div.count {
+      position: absolute;
+      width: 60px;
+      top: 15px;
+      right: 0;
+      background: $sk-accent-color-01;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+      text-align: center;
+      line-height: 2em;
+      color: #FFFFFF;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    & > div.header {
+      @extend %bold-text;
+      line-height: 24px;
+      font-size: 16px;
+      margin-bottom: 0.5em;
+      margin-right: 66px;
+    }
+
+    & > div.extra-info {
+      @extend %normal-text;
+      font-size: 12px;
+    }
+
+    & > div.field {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: 0.5em;
+
+      & > div.label {
+        font-size: 16px;
+        margin-right: 0.5em;
+
+        & > img {
+          width: 1em;
+          height: 1em;
+        }
+      }
+
+      & > div.value {
+      }
+    }
+
+    & > div.bottom-line {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      & > div.left {
+        flex-grow: 1;
+      }
+
+      & > div.right {
+      }
+    }
+
+    &.deep {
+      margin-left: 30px;
+
+      &.selected {
+        & > div.header {
+          color: $sk-accent-color-02;
+        }
+      }
+    }
+  }
+
+  div.sk-company-connections-page-connections {
+    /*position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;*/
+    padding-left: 30px;
+    height: 100%;
+
+    & > div.header {
+      padding: 15px 0;
+      font-size: 24px;
+    }
+
+    & > div.tabs-slot {
+      margin: 15px 0;
+      margin-bottom: 30px;
+    }
+
+    & > div.cards {
+      position: relative;
+      min-height: calc(100% - 200px);
+
+      & > div.card-slot {
+        margin: 30px 0;
+      }
+    }
+  }
+}

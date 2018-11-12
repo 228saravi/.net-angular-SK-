@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  position: relative;
+  padding-bottom: -4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  & ::ng-deep .dx-tab {
+    background: none;
+  }
+}

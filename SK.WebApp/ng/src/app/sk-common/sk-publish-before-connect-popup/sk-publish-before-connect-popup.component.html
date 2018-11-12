@@ -1,0 +1,20 @@
+<dx-popup #popup
+          [showTitle]="false"
+          width="429px"
+          height="190px"
+          [closeOnBackButton]="false"
+          [closeOnOutsideClick]="false">
+  <div *dxTemplate="let data of 'content'">
+    <div class="sk-publish-before-connect-popup-content">
+      <div class="text" *ngIf="type == 'company'">
+        Чтобы откликаться, необходимо заполнить информацию о компании и опубликовать её
+      </div>
+      <div class="text" *ngIf="type == 'expert'">
+        Чтобы откликаться, необходимо заполнить информацию о профиле и опубликовать её
+      </div>
+      <div class="buttons">
+        <sk-button class="full-width" text="Ок" (click)="hide()"></sk-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

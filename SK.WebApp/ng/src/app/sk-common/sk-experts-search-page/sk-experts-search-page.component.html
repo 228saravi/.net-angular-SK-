@@ -1,0 +1,107 @@
+<div class="sk-page">
+  <div class="nav">
+    <sk-nav></sk-nav>
+  </div>
+
+  <div class="body">
+    <div class="content with-sticky-aside">
+      <div class="aside" style="height: calc(100vh - 56px); top: 56px">
+        <sk-experts-filter></sk-experts-filter>
+      </div>
+      <div #main class="main" style="position: relative; padding: 32px 0 32px 32px;">
+
+        <sk-loader *ngIf="!searchResult" [element]="main"></sk-loader>
+
+        <div class="sk-placeholder" *ngIf="searchResult?.experts.length == 0">
+          <img src="../../../assets/sk-no-results-placeholder-icon.svg"/>
+          <div class="message">По выбранным критериям нет результата, попробуйте изменить фильтры чтобы увидеть подходящих специалистов</div>
+        </div>
+
+        <div class="sk-experts-searsh-page-cards">
+          <div class="card-slot" *ngFor="let profile of searchResult?.experts">
+            <div class="sk-horizontal-card expert">
+              <div class="extra">
+                <a [routerLink]="['/experts', profile.id]">
+                  <img *ngIf="profile.photoImageUrl" [src]="profile.photoImageUrl" />
+                  <div *ngIf="!profile.photoImageUrl" class="no-image"></div>
+                </a>
+              </div>
+              <div class="main">
+                <div class="header">
+                  <div class="logo-slot">
+                    <sk-speciality-icon [specialityId]="profile.speciality.id" height="42"></sk-speciality-icon>
+                  </div>
+                  <div class="line-1">
+                    <div class="main">
+                      <div class="sk-text-with-budge" style="width: 430px;">
+                        <div class="text">
+                          <a [routerLink]="['/experts', profile.id]">
+                            {{profile.name}}
+                          </a>
+                        </div>
+                        <div class="budge">
+                          <sk-rating [value]="profile.rating"></sk-rating>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="extra">{{profile?.speciality?.specialization?.name || profile?.speciality?.name || 'Не указано'}}</div>
+                  </div>
+                  <div class="line-2">
+                    {{profile.ratePerHour}} р/ч
+                  </div>
+                </div>
+                <div class="field-set">
+                  <div class="field">
+                    <div class="label">Город</div>
+                    <div class="value">{{profile.city.name}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">Стаж</div>
+                    <div class="value">{{profile?.experience?.name || 'Не указано'}}</div>
+                  </div>
+                  <div class="field" *ngFor="let group of profile.speciality.skillsGroups">
+                    <div class="label">{{group.name}}</div>
+                    <div class="value">
+                      <span>
+                        {{group.skills[0].name}}
+                      </span>
+                      <span #extra class="extra" *ngIf="group.skills.length > 1" (click)="popover.instance.show()">
+                        <span>+ ещё {{group.skills.length-1}}</span>
+                        <dx-popover #popover [target]="extra">
+                          <div *dxTemplate="let data of 'content'">
+                            <div class="sk-popover-content">
+                              <div class="header">{{group.name}}</div>
+                              <ul>
+                                <li *ngFor="let s of group.skills">
+                                  {{s.name}}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </dx-popover>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="bottom-line">
+                  <div class="info"></div>
+                  <div class="controls">
+                    <sk-button text="Пригласить" (click)="onConnectClick(profile.id)"></sk-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="load-more-button-slot" *ngIf="searchResult?.experts?.length < searchResult?.totalCount">
+          <sk-button class="flat" text="Загрузить ещё" (click)="loadMore()"></sk-button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<sk-connect-company-to-expert-popup #connectCompanyToExpertPopup></sk-connect-company-to-expert-popup>
+<sk-publish-before-connect-popup #publishBeforeConnectPopup type="company"></sk-publish-before-connect-popup>

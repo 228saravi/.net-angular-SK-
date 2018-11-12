@@ -1,0 +1,80 @@
+@import '../../_styles/sk-variables.scss';
+
+div.sk-profile-check-before-publish-popup-check-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  & > div:first-child {
+    margin-right: 12px;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 12px;
+  }
+
+  &.good {
+    & ::ng-deep {
+      .dx-checkbox.dx-checkbox-checked.dx-state-readonly .dx-checkbox-icon {
+        background-color: #27AE60FF !important;
+        opacity: 1;
+      }
+    }
+  }
+
+  &.bad {
+    color: #EB5757;
+
+    & ::ng-deep {
+      .dx-checkbox-icon {
+        border-color: #EB5757;
+      }
+    }
+  }
+}
+
+div.sk-profile-check-before-publish-popup-content {
+  & > div.header-1 {
+    @extend %bold-text;
+    margin-bottom: 6px;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  & > div.header-2 {
+    @extend %light-text;
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  & > div.section {
+    margin: 24px 0;
+
+    & > div.header {
+      @extend %light-text;
+      margin-bottom: 18px;
+      padding-bottom: 6px;
+      border-bottom: solid 1px #D8D8D8;
+
+      & > span.text {
+        &:after {
+          content: ":"
+        }
+      }
+    }
+
+    & > div.body {
+    }
+  }
+
+  & > div.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}

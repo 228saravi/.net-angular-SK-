@@ -1,0 +1,3 @@
+<dx-tabs #tabs (onSelectionChanged)="onSelectionChanged($event)">
+  <dxi-item [text]="item.text" [badge]="item.badge" *ngFor="let item of items"></dxi-item>
+</dx-tabs>

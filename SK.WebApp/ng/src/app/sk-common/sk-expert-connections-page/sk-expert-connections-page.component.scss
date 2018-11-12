@@ -1,0 +1,31 @@
+@import '../../_styles/sk-page.scss';
+@import '../../_styles/sk-card.scss';
+@import '../../_styles/sk-status.scss';
+@import '../../_styles/sk-placeholder.scss';
+
+:host {
+  position: relative;
+  display: block;
+  height: 100%;
+
+  div.sk-expert-connections-page-content {
+    height: 100%;
+
+    & > div.tabs-slot {
+      margin-bottom: 20px;
+    }
+
+    & > div.connections {
+      position: relative;
+      min-height: calc(100% - 70px);
+
+      & > div.card-slot {
+        margin: 20px 0;
+
+        &:last-child{
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

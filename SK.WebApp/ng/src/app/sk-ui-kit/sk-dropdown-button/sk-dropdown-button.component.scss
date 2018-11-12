@@ -1,0 +1,12 @@
+:host {
+  ::ng-deep {
+    .dx-button{
+      box-shadow: none;
+
+      .dx-button-text{
+        position: relative;
+        top: -6px;
+      }
+    }
+  }
+}

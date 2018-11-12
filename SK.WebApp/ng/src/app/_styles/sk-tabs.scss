@@ -1,0 +1,22 @@
+@import 'sk-variables.scss';
+
+$sk-page-nav-height: 40px;
+
+div.sk-tabs {
+
+  & > div.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
+    width: 100%;
+
+    & > button {
+      color: red;
+    }
+  }
+
+  & > div.body {
+  }
+}

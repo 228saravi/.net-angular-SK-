@@ -1,0 +1,308 @@
+@import 'sk-variables.scss';
+
+div.sk-details-page-content {
+  & > div:nth-child(1) {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-width: 100%;
+
+    & > div.left {
+      flex-grow: 1;
+    }
+
+    & > div.right {
+      flex-shrink: 0;
+      position: relative;
+      width: $sk-aside-width;
+      margin-left: $sk-aside-margin;
+
+      & > div.controls {
+        margin-bottom: 1em;
+
+        & > div:not(:last-child) {
+          margin-bottom: 18px;
+        }
+
+        & > div.share-buttons {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          margin: -0.3125em;
+
+          ::ng-deep {
+            share-button {
+              flex-grow: 1;
+            }
+
+            .sb-wrapper {
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      & > div.logo {
+        box-sizing: border-box;
+        margin-bottom: 1em;
+
+        & > img {
+          @extend %with-shadow;
+          width: 100%;
+          display: block;
+          position: relative;
+        }
+
+        & > div.no-image {
+          @extend %with-shadow;
+          background-color: $sk-main-border-color;
+          height: 420px;
+        }
+
+        & > div.controls {
+          & > div {
+            margin-top: 1em;
+            margin-bottom: 1em;
+          }
+        }
+      }
+
+      &.blured {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  & > div:nth-child(2) {
+    display: block;
+  }
+}
+
+div.sk-details {
+  display: block;
+
+  %button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 13px;
+    color: $sk-accent-color-01;
+    cursor: pointer;
+    text-transform: lowercase;
+
+    &:disabled {
+      opacity: 1;
+    }
+
+    &.big {
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+
+  %block-base {
+    border-bottom: solid 1px #D8D8D8;
+    padding: 30px 0 30px 0;
+
+    & > div.header {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 100%;
+      margin-bottom: 30px;
+
+      & > div.text {
+        flex-grow: 1;
+        font-size: 24px;
+        line-height: 1em;
+      }
+
+      & > div.controls {
+        flex-shrink: 0;
+
+        & > button {
+          @extend %button;
+
+          &:not(:last-of-type) {
+            margin-right: 6px;
+          }
+        }
+      }
+    }
+
+    & > div.body {
+    }
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    &.blured {
+      opacity: 0.2;
+    }
+
+    &.focused {
+      border: solid 1px #E2208D99;
+      box-sizing: border-box;
+      width: calc(100% + 40px);
+      padding-left: 20px;
+      padding-right: 20px;
+      position: relative;
+      left: -21px;
+
+      &:first-child {
+        top: -20px;
+        border-top: solid 1px #E2208D99;
+        padding-top: 20px;
+      }
+    }
+  }
+
+  & > div.header {
+    @extend %block-base;
+
+    & > div.controls {
+      text-align: right;
+
+      & > button {
+        @extend %button;
+      }
+    }
+
+    & > div.content {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: stretch;
+      width: 100%;
+
+      & > div.image {
+        margin-right: 12px;
+
+        & > a > img {
+          width: 55px;
+          height: 55px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+
+      & > div.info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+
+        & > div.main {
+          @extend %semi-bold-text;
+          margin-bottom: 6px;
+          font-size: 34px;
+          line-height: 1em;
+        }
+
+        & > div.extra {
+          @extend %light-text;
+          font-size: 14px;
+          line-height: 1em;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        &.main {
+          flex-grow: 1;
+        }
+
+        &:last-of-type {
+          & > div.extra {
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+
+  & > div.block,
+  & > form.block {
+    @extend %block-base;
+  }
+
+  & > div.field-set,
+  & > form.field-set {
+    @extend %block-base;
+
+    & > div.fields {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      width: 100%;
+      margin-bottom: -12px;
+
+      & > div.field {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: calc(50% - 9px);
+        min-height: 26px;
+        margin-bottom: 12px;
+        line-height: 22px;
+
+
+        & > div.label {
+          @extend %light-text;
+          width: 140px;
+          flex-grow: 0;
+          flex-shrink: 0;
+          margin-right: 30px;
+          font-size: 14px;
+          text-align: left;
+          text-transform: lowercase;
+
+          &:after {
+            content: ":";
+          }
+        }
+
+        & > div.value {
+          @extend %bold-text;
+          flex-grow: 1;
+          font-size: 16px;
+
+          & > div {
+            margin-bottom: 2 * $sk-grid-offset;
+          }
+
+          & > ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            & > li {
+              position: relative;
+              margin-bottom: 2 * $sk-grid-offset;
+            }
+          }
+
+          &.control {
+            margin-top: -7px;
+          }
+        }
+
+        &:not(:nth-of-type(2n)) {
+          margin-right: 9px;
+        }
+      }
+    }
+  }
+}

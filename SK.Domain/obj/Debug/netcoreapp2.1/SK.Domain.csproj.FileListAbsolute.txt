@@ -1,0 +1,12 @@
+C:\Data\sk\sk\SK\SK.Domain\bin\Debug\netcoreapp2.1\SK.Domain.deps.json
+C:\Data\sk\sk\SK\SK.Domain\bin\Debug\netcoreapp2.1\SK.Domain.dll
+C:\Data\sk\sk\SK\SK.Domain\bin\Debug\netcoreapp2.1\SK.Domain.pdb
+C:\Data\sk\sk\SK\SK.Domain\bin\Debug\netcoreapp2.1\SK.Database.dll
+C:\Data\sk\sk\SK\SK.Domain\bin\Debug\netcoreapp2.1\SK.Database.pdb
+C:\Data\sk\sk\SK\SK.Domain\obj\Debug\netcoreapp2.1\SK.Domain.csprojAssemblyReference.cache
+C:\Data\sk\sk\SK\SK.Domain\obj\Debug\netcoreapp2.1\SK.Domain.csproj.CoreCompileInputs.cache
+C:\Data\sk\sk\SK\SK.Domain\obj\Debug\netcoreapp2.1\SK.Domain.AssemblyInfoInputs.cache
+C:\Data\sk\sk\SK\SK.Domain\obj\Debug\netcoreapp2.1\SK.Domain.AssemblyInfo.cs
+C:\Data\sk\sk\SK\SK.Domain\obj\Debug\netcoreapp2.1\SK.Domain.csproj.CopyComplete
+C:\Data\sk\sk\SK\SK.Domain\obj\Debug\netcoreapp2.1\SK.Domain.dll
+C:\Data\sk\sk\SK\SK.Domain\obj\Debug\netcoreapp2.1\SK.Domain.pdb

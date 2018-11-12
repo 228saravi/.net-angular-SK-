@@ -1,0 +1,30 @@
+:host {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  & > div.basic-fields {
+    &>div{
+      margin-bottom: 20px;
+    }
+  }
+
+  & > div.specialities {
+    flex-shrink: 1;
+    flex-grow: 1;
+    position: relative;
+  }
+
+  & > div.buttons {
+    flex-shrink: 0;
+    position: relative;
+  }
+}

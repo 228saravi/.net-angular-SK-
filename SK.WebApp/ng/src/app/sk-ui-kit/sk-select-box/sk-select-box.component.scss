@@ -1,0 +1,28 @@
+@import '../../_styles/sk-variables.scss';
+
+sk-select-box {
+  display: block;
+  width: 100%;
+
+  & > .hide-drop-down-button {
+    .dx-dropdowneditor-button {
+      display: none;
+    }
+  }
+
+  .dx-texteditor:not(.dx-textarea) .dx-texteditor-container:after,
+  .dx-texteditor:not(.dx-textarea).dx-state-focused .dx-texteditor-container:after,
+  .dx-texteditor:not(.dx-textarea).dx-state-active .dx-texteditor-container:after {
+    border-color: $sk-main-color; // Основной цвет подчёркивания
+  }
+
+  .dx-texteditor:not(.dx-textarea) .dx-texteditor-container:before,
+  .dx-texteditor:not(.dx-textarea).dx-state-focused .dx-texteditor-container:before,
+  .dx-texteditor:not(.dx-textarea).dx-state-active .dx-texteditor-container:before {
+    border-color: $sk-main-color; // Цвет подчёркивания в фокусе.
+  }
+}
+
+.dx-selectbox-popup-wrapper .dx-list-group-header {
+  color: $sk-highlight-color;
+}

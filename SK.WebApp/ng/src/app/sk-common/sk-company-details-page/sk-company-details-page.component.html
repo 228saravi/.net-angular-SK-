@@ -1,0 +1,237 @@
+<div class="sk-page">
+  <div class="nav">
+    <sk-nav></sk-nav>
+  </div>
+
+  <div class="body">
+    <div class="content with-sticky-aside">
+      <div class="main" style="padding: 32px 0">
+        <div *ngIf="notFound">
+          Данная страница не доступна
+        </div>
+        <div class="sk-details-page-content" *ngIf="vm">
+          <div>
+            <div class="left">
+              <div class="sk-details">
+
+                <div class="header" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.headerEditing">
+                  <div class="controls" *ngIf="vm.isMyCompany">
+                    <button (click)="vm.editHeader()" [disabled]="vm.isSomethingEditing">изменить</button>
+                  </div>
+                  <div class="content">
+                    <div class="info main">
+                      <div class="main">
+                        <div class="sk-text-with-budge">
+                          <div class="text">
+                            {{vm.company.name}}
+                          </div>
+                          <div class="budge">
+                            <sk-rating [value]="vm.company.rating" class="block"></sk-rating>
+                          </div>
+                        </div>
+                        <!--{{vm.company.name}} <sk-rating [value]="vm.company.rating"></sk-rating>-->
+                      </div>
+                      <div class="extra" *ngIf="vm.company?.city">
+                        <img src="../../../assets/sk-place-point-icon.svg" style="height: 1em" />
+                        &nbsp;
+                        <span style="margin-right: 0.5em;">{{vm.company?.city?.name}}</span>
+                      </div>
+                    </div>
+                    <div class="info">
+                    </div>
+                  </div>
+                </div>
+                <form class="field-set" [ngClass]="{'focused': vm.headerEditing }" #headerInfoForm="ngForm" *ngIf="vm.headerEditing" (keyup.enter)="submit(headerInfoForm)" (ngSubmit)="onHeaderSubmit($event, headerInfoForm)">
+                  <div class="header">
+                    <div class="text">
+
+                    </div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(headerInfoForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Название</div>
+                      <div class="value control">
+                        <sk-text-box name="name" [(ngModel)]="vm.headerEditing.name" style="width: 100%"></sk-text-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Город</div>
+                      <div class="value control">
+                        <sk-select-box name="city"
+                                       [(ngModel)]="vm.headerEditing.selectedCityId"
+                                       [items]="vm.headerEditing.allCities"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="block" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.aboutCompanyEditing">
+                  <div class="header">
+                    <div class="text">О компании</div>
+                    <div class="controls" *ngIf="vm.isMyCompany">
+                      <button (click)="vm.editAboutCompany()" [disabled]="vm.isSomethingEditing">изменить</button>
+                    </div>
+                  </div>
+                  <div class="body">
+                    <sk-formatted-text *ngIf="vm?.company?.aboutCompanyHtml" [html]="vm?.company?.aboutCompanyHtml"></sk-formatted-text>
+                    <p *ngIf="!vm?.company?.aboutCompanyHtml">Не указано</p>
+                  </div>
+                </div>
+                <form class="block" [ngClass]="{'focused': vm.aboutCompanyEditing }" #aboutCompanyForm="ngForm" *ngIf="vm.aboutCompanyEditing" (keyup.enter)="submit(aboutCompanyForm)" (ngSubmit)="onAboutCompanySubmit($event, aboutCompanyForm)">
+                  <div class="header">
+                    <div class="text">О компании</div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(aboutCompanyForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="body">
+                    <sk-formatted-text-editor name="text" [(ngModel)]="vm.aboutCompanyEditing.html"></sk-formatted-text-editor>
+                  </div>
+                </form>
+
+                <div class="block"></div>
+
+              </div>
+            </div>
+
+            <div class="right" [ngClass]="{'blured': vm.isSomethingEditing}">
+              <div class="controls" *ngIf="vm.isMyCompany">
+                <div *ngIf="!vm?.company?.isPublished">
+                  <sk-button text="Опубликовать" class="big full-width" (click)="onPublishClick()"></sk-button>
+                </div>
+                <div *ngIf="vm?.company?.isPublished">
+                  <div class="sk-status">
+                    Опубликовано
+                  </div>
+                </div>
+              </div>
+              <div class="logo">
+                <img *ngIf="vm.company?.logoImageUrl" [src]="vm.company.logoImageUrl" />
+                <div class="no-image" *ngIf="!vm.company?.logoImageUrl"></div>
+                <div class="controls">
+                  <div>
+                    <sk-file-uploader #photoUploader *ngIf="vm.isMyCompany" [disabled]="vm.isSomethingEditing" [uploadUrl]="vm.logoUploadUrl" (uploaded)="onUploaded($event)"></sk-file-uploader>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sk-details">
+              <div></div>
+              <div class="block" [ngClass]="{'blured': vm.isSomethingEditing}">
+                <div class="header">
+                  <div class="text">Мероприятия</div>
+                  <div class="controls" *ngIf="vm.isMyCompany">
+                    <button class="big" *ngIf="vm?.company?.isPublished" (click)="onRegisterEventClick()">Добавить</button>
+                    <ng-container *ngIf="!vm?.company?.isPublished">
+                      Чтобы добавлять мероприятия, пожалуйста, <button class="big" (click)="onPublishClick()">опубликуйте компанию</button>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="body">
+
+                  <div class="sk-cards-set">
+
+                    <div *ngFor="let event of vm.company.events">
+
+                      <div class="vertical-card">
+                        <div class="content" [ngClass]="{'blured': vm.isEventOver(event)}">
+                          <div class="logo">
+                            <a [routerLink]="['/events', event.id]">
+                              <img *ngIf="event?.logoImageUrl" [src]="event.logoImageUrl" />
+                              <div class="no-image" *ngIf="!event?.logoImageUrl"></div>
+                            </a>
+                          </div>
+                          <div class="company">
+                            <div class="logo">
+                              <a [routerLink]="['/companies', vm.company.id]">
+                                <img *ngIf="vm?.company?.thumbnailImageUrl" [src]="vm?.company?.thumbnailImageUrl" />
+                                <div class="no-image" *ngIf="!vm?.company?.thumbnailImageUrl"></div>
+                              </a>
+                            </div>
+                            <div class="name">
+                              <a [routerLink]="['/companies', vm.company.id]">{{vm.company.name}}</a>
+                            </div>
+                            <div class="rating">
+                              <sk-rating [value]="vm.company.rating" class="block"></sk-rating>
+                            </div>
+                          </div>
+                          <div class="header">
+                            <div class="text" [title]="event?.name">
+                              <a [routerLink]="['/events', event.id]">{{event.name || 'Не указано'}}</a>
+                            </div>
+                            <div class="extra">
+                              <span>{{event?.type?.name || 'Не задано'}}</span>
+                              ●
+                              <span>{{event?.format?.name || 'Не задано'}}</span>
+                            </div>
+                          </div>
+                          <div class="field-set">
+                            <div class="field">
+                              <div class="label icon"><img src="../../../assets/sk-calendar-icon.svg" height="14" /></div>
+                              <div class="value">{{(event.startTime | time) || 'Начало'}} — {{(event.endTime | time) || 'Конеец'}}</div>
+                            </div>
+                            <div class="field">
+                              <div class="label icon"><img src="../../../assets/sk-place-point-icon.svg" height="14" /></div>
+                              <div class="value">
+                                <div>{{event?.city?.name || 'Город'}},</div>
+                                <div [title]="event?.address">{{event?.address || 'Адрес'}}</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="field-set">
+                            <div class="field">
+                              <div class="label">сегмент</div>
+                              <div class="value">{{event?.segment?.name || 'Не указано'}}</div>
+                            </div>
+                            <div class="field">
+                              <div class="label">гостей</div>
+                              <div class="value">{{event?.estimatedGuestsCount || 'Не указано'}}</div>
+                            </div>
+                          </div>
+                          <div class="vacancies">
+                            <div class="label">вакансии</div>
+                            <div class="data">
+                              <div> <img src="../../../assets/sk-cook-icon.svg" height="16" />{{event.connectedCooksCount}}/{{event.totalCooksCount}}</div>
+                              <div> <img src="../../../assets/sk-barman-icon.svg" height="16" />{{event.connectedBarmansCount}}/{{event.totalBarmansCount}}</div>
+                              <div> <img src="../../../assets/sk-waiter-icon.svg" height="16" />{{event.connectedWaitersCount}}/{{event.totalWaitersCount}}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="badge v2" *ngIf="vm.isEventOver(event)">
+                          Прошедшее
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="footer">
+    <div>
+      Footer
+    </div>
+  </div>-->
+
+</div>
+

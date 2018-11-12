@@ -1,0 +1,37 @@
+<dx-popup #popup
+          [showTitle]="false"
+          width="428px"
+          [height]="vm?.popupHeight || 300"
+          [closeOnBackButton]="false"
+          [closeOnOutsideClick]="false"
+          (onHiding)="onHidding($event)"
+          (onHidden)="onHidden()">
+  <div *dxTemplate="let data of 'content'">
+    <div class="sk-profile-check-before-publish-popup-content" *ngIf="vm">
+      <div class="header-1">
+        {{vm.checkData.h1}}
+      </div>
+      <div class="header-2">
+        {{vm.checkData.h2}}
+      </div>
+      <div class="section" *ngFor="let checkGroup of vm.checkData.checkGroups">
+        <div class="header" *ngIf="checkGroup.name">
+          <span class="text">{{checkGroup.name}}</span>
+        </div>
+        <div class="body">
+          <div class="sk-profile-check-before-publish-popup-check-box" [ngClass]="{ 'good': item.isGood, 'bad': !item.isGood }" *ngFor="let item of checkGroup.checkItems">
+            <div>
+              <sk-check-box [value]="item.isGood" [readOnly]="true"></sk-check-box>
+            </div>
+            <div>
+              <span>{{item.text}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <sk-button text="Готово" (click)="hide()"></sk-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

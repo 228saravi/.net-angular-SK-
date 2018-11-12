@@ -1,0 +1,254 @@
+<dx-popup #popup
+          [showTitle]="false"
+          title="Вход"
+          width="360px"
+          [height]="popupHeight"
+          [closeOnBackButton]="true"
+          [closeOnOutsideClick]="true"
+          (onHiding)="onHidding($event)"
+          (onHidden)="onHidden()">
+  <div *dxTemplate="let data of 'content'">
+
+    <div *ngIf="vm" class="sk-sign-in-popup-content">
+
+      <div class="buttons">
+        <div></div>
+        <sk-button class="context" text="Закрыть" (click)="onCloseClick()"></sk-button>
+      </div>
+
+      <form *ngIf="vm.mode == Mode.signIn" #signInForm="ngForm" (ngSubmit)="signInForm.form.valid && signIn()">
+
+        <div class="header">
+          Пожалуйста, войдите или зарегистрируйтесь
+        </div>
+
+        <div class="fields">
+          <div>
+            <sk-text-box #signInloginControl="ngModel"
+                         name="email"
+                         [(ngModel)]="vm.signInVm.email"
+                         placeholder="Email"
+                         required
+                         email
+                         [errorMessage]="detectLoginErrorMessage(signInloginControl)">
+            </sk-text-box>
+          </div>
+          <div>
+            <sk-text-box #signInPasswordControl="ngModel"
+                         name="password"
+                         [(ngModel)]="vm.signInVm.password"
+                         placeholder="Пароль"
+                         required
+                         mode="password"
+                         [errorMessage]="(signInPasswordControl.dirty && signInPasswordControl?.errors?.required) ? 'Обязательное поле' : null">
+            </sk-text-box>
+          </div>
+        </div>
+
+        <div class="actions">
+          <div>
+            <sk-button text="Войти" class="full-width" [useSubmitBehavior]="true" [disabled]="signInForm.form.invalid"></sk-button>
+          </div>
+          <div>
+            <sk-button text="Зарегистрироваться"
+                       class="full-width context"
+                       (click)="vm.mode = Mode.registerExpert">
+            </sk-button>
+          </div>
+          <div>
+            <span class="extra-link" (click)="vm.mode = Mode.initPasswordReset">Восстановить пароль</span>
+          </div>
+        </div>
+
+      </form>
+
+
+      <form *ngIf="vm.mode == Mode.registerExpert" #registerExpertForm="ngForm" (ngSubmit)="registerExpertForm.form.valid && registerExpert()">
+
+        <div>
+          <sk-tabs>
+            <sk-tabs-item text="Эксперт" [selectedByDefault]="true"></sk-tabs-item>
+            <sk-tabs-item text="Компания" (clicked)="vm.mode = Mode.registerCompany"></sk-tabs-item>
+          </sk-tabs>
+        </div>
+
+        <div class="fields">
+          <div>
+            <sk-text-box #registerExpertEmailControl="ngModel"
+                         name="email"
+                         [(ngModel)]="vm.registerExpertVm.email"
+                         placeholder="Email"
+                         required
+                         email
+                         [errorMessage]="detectLoginErrorMessage(registerExpertEmailControl)">
+            </sk-text-box>
+          </div>
+          <div>
+            <sk-text-box #registerExpertPasswordControl="ngModel"
+                         name="password"
+                         [(ngModel)]="vm.registerExpertVm.password"
+                         placeholder="Пароль"
+                         mode="password"
+                         required
+                         minlength="6"
+                         [errorMessage]="detectPasswordErrorMessage(registerExpertPasswordControl)">
+
+            </sk-text-box>
+          </div>
+          <div>
+            <sk-text-box #registerExpertNameControl="ngModel"
+                         name="name"
+                         [(ngModel)]="vm.registerExpertVm.name"
+                         placeholder="Имя"
+                         required
+                         [errorMessage]="(registerExpertNameControl.dirty && registerExpertNameControl?.errors?.required) ? 'Обязательное поле' : null">
+            </sk-text-box>
+          </div>
+        </div>
+
+        <div class="check-box">
+          <sk-check-box #confirmExpertControl="ngModel"
+                        name="confirmExpert"
+                        [(ngModel)]="vm.registerExpertVm.confirmed"
+                        required>
+          </sk-check-box>
+          Я прочитал и ознакомился с <a href="https://drive.google.com/drive/folders/1gxZph0Cr2aiNm2KmUx9pIyOi8bb5yLoG" target="_blank">документами</a>
+        </div>
+
+        <div class="actions">
+          <div>
+            <sk-button class="full-width" text="Зарегистрироваться" [useSubmitBehavior]="true" [disabled]="registerExpertForm.form.invalid || !vm.registerExpertVm.confirmed"></sk-button>
+          </div>
+          <div>
+            <sk-button text="Войти" class="full-width context" (click)="vm.mode = Mode.signIn"></sk-button>
+          </div>
+        </div>
+
+      </form>
+
+      <form *ngIf="vm.mode == Mode.registerCompany" #registerCompanyForm="ngForm" (ngSubmit)="registerCompanyForm.form.valid && registerCompany()">
+
+        <div>
+          <sk-tabs>
+            <sk-tabs-item text="Эксперт" (clicked)="vm.mode = Mode.registerExpert"></sk-tabs-item>
+            <sk-tabs-item text="Компания" [selectedByDefault]="true"></sk-tabs-item>
+          </sk-tabs>
+        </div>
+
+        <div class="fields">
+          <div>
+            <sk-text-box #registerCompanyEmailControl="ngModel"
+                         name="email"
+                         [(ngModel)]="vm.registerCompanyVm.email"
+                         placeholder="Email"
+                         required
+                         email
+                         [errorMessage]="detectLoginErrorMessage(registerCompanyEmailControl)">
+            </sk-text-box>
+          </div>
+          <div>
+            <sk-text-box #registerCompanyPasswordControl="ngModel"
+                         name="password"
+                         [(ngModel)]="vm.registerCompanyVm.password"
+                         placeholder="Пароль"
+                         mode="password"
+                         required
+                         minlength="6"
+                         [errorMessage]="detectPasswordErrorMessage(registerCompanyPasswordControl)">
+
+            </sk-text-box>
+          </div>
+          <div>
+            <sk-text-box #registerCompanyNameControl="ngModel"
+                         name="name"
+                         [(ngModel)]="vm.registerCompanyVm.name"
+                         placeholder="Имя"
+                         required
+                         [errorMessage]="(registerCompanyNameControl.dirty && registerCompanyNameControl?.errors?.required) ? 'Обязательное поле' : null">
+            </sk-text-box>
+          </div>
+          <div>
+            <sk-text-box #registerCompanyCompanyNameControl="ngModel"
+                         name="companyName"
+                         [(ngModel)]="vm.registerCompanyVm.companyName"
+                         placeholder="Название компании"
+                         required
+                         [errorMessage]="(registerCompanyCompanyNameControl.dirty && registerCompanyCompanyNameControl?.errors?.required) ? 'Обязательное поле' : null">
+            </sk-text-box>
+          </div>
+        </div>
+
+        <div class="check-box">
+          <sk-check-box #confirmCompanyControl="ngModel"
+                        name="confirmCompany"
+                        [(ngModel)]="vm.registerCompanyVm.confirmed"
+                        required>
+
+          </sk-check-box>
+          Я прочитал и ознакомился с <a href="https://drive.google.com/drive/folders/1gxZph0Cr2aiNm2KmUx9pIyOi8bb5yLoG" target="_blank">документами</a>
+        </div>
+
+        <div class="actions">
+          <div>
+            <sk-button class="full-width" text="Зарегистрироваться" [useSubmitBehavior]="true" [disabled]="registerCompanyForm.form.invalid || !vm.registerCompanyVm.confirmed"></sk-button>
+          </div>
+
+          <div>
+            <sk-button text="Войти" class="full-width context" (click)="vm.mode = Mode.signIn"></sk-button>
+          </div>
+        </div>
+
+      </form>
+
+
+      <form #initResetPasswordForm="ngForm" *ngIf="vm.mode == Mode.initPasswordReset" (ngSubmit)="initResetPasswordForm.form.valid && initPasswordReset()">
+        <div class="fields">
+          <div>
+            <sk-text-box #initResetPasswordEmailControl="ngModel"
+                         name="email"
+                         [(ngModel)]="vm.initPasswordResetVm.email"
+                         placeholder="Email"
+                         required
+                         email
+                         [errorMessage]="detectLoginErrorMessage(initResetPasswordEmailControl)">
+            </sk-text-box>
+          </div>
+        </div>
+        <div class="actions">
+          <div>
+            <sk-button class="full-width" text="Отправить ссылку" [useSubmitBehavior]="true" [disabled]="initResetPasswordForm.form.invalid"></sk-button>
+          </div>
+          <div>
+            <sk-button class="full-width context" text="Войти" (click)="vm.mode = Mode.signIn"></sk-button>
+          </div>
+        </div>
+      </form>
+
+      <form #finishResetPasswordForm="ngForm" *ngIf="vm.mode == Mode.finishPasswordReset" (ngSubmit)="finishResetPasswordForm.form.valid && finishPasswordReset()">
+        <div class="fields">
+          <div>
+            <sk-text-box #finishResetPasswordPasswordControl="ngModel"
+                         name="password"
+                         [(ngModel)]="vm.finishPasswordResetVm.newPassword"
+                         placeholder="Новый пароль"
+                         required
+                         mode="password"
+                         [errorMessage]="detectPasswordErrorMessage(finishResetPasswordPasswordControl)">
+            </sk-text-box>
+          </div>
+        </div>
+        <div class="actions">
+          <div>
+            <sk-button text="Сменить пароль" class="full-width" [useSubmitBehavior]="true" [disabled]="finishResetPasswordForm.form.invalid"></sk-button>
+          </div>
+          <div>
+            <sk-button class="full-width context" text="Войти" (click)="vm.mode = Mode.signIn"></sk-button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+</dx-popup>
+

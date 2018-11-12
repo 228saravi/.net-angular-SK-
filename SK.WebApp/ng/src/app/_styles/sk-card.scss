@@ -1,0 +1,694 @@
+
+@import 'sk-variables.scss';
+
+%card-base {
+  @extend %with-shadow;
+  background-color: #FFFFFF;
+  border-radius: 3px;
+  overflow: hidden;
+
+  &.blured {
+    opacity: 0.6;
+  }
+}
+
+%nowrap {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+div.sk-popover-content {
+  & > div.header {
+    @extend %semi-bold-text;
+    margin-bottom: 9px;
+  }
+
+  & > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+  }
+}
+
+div.sk-text-with-budge {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  & > div.text {
+    @extend %nowrap;
+    margin-right: 0.5em;
+  }
+
+  & > div.budge {
+  }
+}
+
+div.sk-vacancies-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  & > div {
+    margin-right: 21px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    & > img {
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+    }
+
+    & > span {
+    }
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+}
+
+div.sk-cards-set {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin-bottom: -20px;
+
+  & > div {
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+    &:nth-child(4n) {
+      margin-right: 0;
+    }
+
+    & > div.vertical-card {
+      height: 100%;
+    }
+  }
+}
+
+div.vertical-card {
+  @extend %card-base;
+  width: $sk-content-width / 4 - 15px;
+  position: relative;
+
+  & > div.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    position: relative;
+    box-sizing: border-box;
+    padding: $sk-grid-offset * 5;
+
+    & > div.logo {
+      position: relative;
+      margin: -15px -15px 18px -15px;
+
+      & > a {
+        position: relative;
+        display: block;
+        height: 185px;
+        margin-bottom: 0;
+        overflow: hidden;
+
+        & > div.vac {
+          height: 100%;
+          overflow: hidden;
+          border-bottom: solid 1px $sk-main-border-color;
+          margin: $sk-grid-offset * 5;
+          margin-bottom: 0;
+
+          & > div.img-slot {
+            width: 50px;
+            height: 50px;
+            margin: 15px auto 15px;
+          }
+
+          & > div.specialization {
+            @extend %semi-bold-text;
+            font-size: 24px;
+            text-align: center;
+          }
+        }
+
+        & > img {
+          width: calc(100% + 32px);
+          height: 100%;
+          margin-bottom: 0;
+          object-fit: cover;
+          object-position: top;
+        }
+
+        & > div.no-image {
+          height: 100%;
+          background-color: $sk-main-border-color;
+        }
+      }
+    }
+
+    & > div.company {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-end;
+      margin-top: -36px;
+      margin-bottom: 18px;
+
+
+      & > div.logo {
+        margin-right: 6px;
+
+        padding: 1px;
+        border: solid 1px #303773;
+        background: #FFFFFF;
+
+        & > a {
+          display: block;
+
+          & > img {
+            display: block;
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            object-position: center;
+          }
+
+          & > div.no-image {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            object-position: center;
+            background-color: $sk-main-border-color;
+          }
+        }
+      }
+
+      & > div.name {
+        @extend %normal-text;
+        @extend %nowrap;
+        margin-right: 6px;
+        margin-bottom: 4px;
+        font-size: 14px;
+      }
+
+      & > div.rating {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+    }
+
+    & > div.header {
+      font-size: 24px;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: solid 1px $sk-main-border-color;
+
+      & > div.text {
+        @extend %semi-bold-text;
+        @extend %nowrap;
+      }
+
+      & > div.extra {
+        @extend %light-text;
+        @extend %nowrap;
+        font-size: 12px;
+        text-transform: lowercase;
+      }
+    }
+
+    & > div.field-set {
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: solid 1px $sk-main-border-color;
+
+      & > div.field {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 15px;
+
+        & > div.label {
+          @extend %light-text;
+          margin-right: 9px;
+          text-transform: lowercase;
+
+          &:after {
+            content: ":";
+          }
+
+          &.icon {
+            &:after {
+              content: none;
+            }
+          }
+        }
+
+        & > div.value {
+          @extend %semi-bold-text;
+          @extend %nowrap;
+
+          & > span.extra {
+            @extend %light-text;
+            font-size: 11px;
+            cursor: pointer;
+          }
+
+          & > div {
+            @extend %nowrap;
+          }
+
+          &.strong {
+            font-size: 20px;
+          }
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+    }
+
+    & > div.vacancies {
+      & > div.label {
+        @extend %light-text;
+        margin-bottom: 9px;
+        font-size: 14px;
+      }
+
+      & > div.data {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        & > div {
+          margin-right: 21px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+
+          & > img {
+            margin-right: 6px;
+          }
+
+          & > span {
+          }
+
+          &:last-child {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    & > div.controls {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: stretch;
+    }
+
+    &.blured {
+      opacity: 0.6;
+    }
+  }
+
+  & > div.badge {
+    @extend %normal-text;
+    position: absolute;
+    top: 21px;
+    right: -3px;
+    padding: 0 15px;
+    border-radius: 3px;
+    background-color: $sk-highlight-color;
+    font-size: 14px;
+    line-height: 26px;
+    text-transform: lowercase;
+
+    &.v2 {
+      background: $sk-main-color;
+      color: #FFFFFF;
+    }
+  }
+}
+
+div.sk-horizontal-card {
+  @extend %card-base;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  & > div.extra {
+    flex-shrink: 0;
+    width: 234px;
+    position: relative;
+
+    & > a {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+      }
+
+      & > div.no-image {
+        width: 100%;
+        height: 100%;
+        background-color: $sk-main-border-color;
+      }
+    }
+
+    & > div.event-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      box-sizing: border-box;
+      height: 100%;
+      padding: 15px;
+      border-right: 1px dashed #E8E5EE;
+
+      & > div.expander {
+        flex-grow: 1;
+      }
+
+      & > div.name {
+        @extend %nowrap;
+        @extend %semi-bold-text;
+        font-size: 16px;
+      }
+
+      & > div.type {
+        @extend %nowrap;
+        @extend %light-text;
+        font-size: 12px;
+      }
+
+      & > div.company {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 20px 0;
+
+        & > a.logo {
+          flex-shrink: 0;
+          position: relative;
+          display: block;
+          width: 21px;
+          height: 21px;
+          margin-right: 12px;
+          border-radius: 3px;
+
+          & > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+          }
+        }
+
+        & > a.name {
+          @extend %nowrap;
+          font-size: 12px;
+        }
+
+        & > div.rating-slot {
+          margin-left: 9px;
+          font-size: 14px;
+        }
+
+        & > div.expander {
+          flex-grow: 1;
+        }
+      }
+
+      & > div.field {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+
+        & > div.label {
+          @extend %light-text;
+          margin-right: 9px;
+          font-size: 14px;
+          text-transform: lowercase;
+
+          &:after {
+            content: ":";
+          }
+        }
+
+        & > div.value {
+          @extend %semi-bold-text;
+          font-size: 14px;
+
+          & > span.extra {
+            @extend %light-text;
+            font-size: 11px;
+            cursor: pointer;
+          }
+        }
+      }
+
+      & > div.vacancies {
+        & > div.label {
+          @extend %light-text;
+          margin-bottom: 9px;
+          font-size: 14px;
+          text-transform: lowercase;
+        }
+
+        & > div.data {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: flex-start;
+
+          & > div {
+            margin-right: 21px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            & > img {
+              margin-right: 6px;
+            }
+
+            &:last-child {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  & > div.main {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 15px;
+    overflow: hidden;
+
+    & > div.header {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: stretch;
+      margin-bottom: 30px;
+
+      & > div.logo-slot {
+        width: 42px;
+        height: 42px;
+        margin-right: 12px;
+      }
+
+      & > div.line-1 {
+        flex-grow: 1;
+        margin-right: 21px;
+
+        & > div.main {
+          @extend %semi-bold-text;
+          position: relative;
+          font-size: 22px;
+        }
+
+        & > div.extra {
+          @extend %light-text;
+          font-size: 10px;
+        }
+      }
+
+      & > div.line-2 {
+        flex-shrink: 0;
+        @extend %nowrap;
+        @extend %semi-bold-text;
+        font-size: 28px;
+        line-height: 1em;
+      }
+    }
+
+    & > div.field-set {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+
+      & > div.field {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        box-sizing: border-box;
+        width: calc(50% - 12px);
+        margin-right: 12px;
+        margin-bottom: 12px;
+
+        & > div.label {
+          @extend %light-text;
+          margin-right: 9px;
+          font-size: 14px;
+          text-transform: lowercase;
+
+          &:after {
+            content: ":";
+          }
+        }
+
+        & > div.value {
+          @extend %semi-bold-text;
+          @extend %nowrap;
+          font-size: 14px;
+
+          & > span.extra {
+            @extend %light-text;
+            font-size: 11px;
+            cursor: pointer;
+          }
+        }
+
+        &:nth-child(2n) {
+          margin-right: 0;
+        }
+      }
+    }
+
+    & > div.bottom-line {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-end;
+
+      & > div.info {
+        flex-grow: 1;
+      }
+
+      & > div.controls {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+      }
+    }
+  }
+
+  &.vacancy {
+    min-height: 245px;
+
+    & > div.main {
+      & > div.bottom-line {
+        position: absolute;
+        bottom: 4*$sk-grid-offset;
+        right: 4*$sk-grid-offset;
+      }
+    }
+  }
+
+  &.expert {
+    height: 245px;
+  }
+}
+
+div.sk-company-card {
+  @extend %card-base;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  & > a.logo {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border-radius: 3px;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
+
+
+  & > a.name {
+    @extend %nowrap;
+    font-size: 18px;
+  }
+
+  & > div.rating-slot {
+    margin-left: 9px;
+    font-size: 18px;
+  }
+
+  & > div.expander {
+    flex-grow: 1;
+  }
+}

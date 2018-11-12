@@ -1,0 +1,43 @@
+<div *ngFor="let specialitySelectionVm of vm?.specialitySelectionVms">
+  <sk-select-box [(value)]="specialitySelectionVm.selectedId"
+                 (valueChange)="onSomethingChanged()"
+                 [items]="specialitySelectionVm.awailableSpecialities"
+                 placeholder="Специальность..."
+                 valueExpr="id"
+                 displayExpr="name"
+                 [showDropDownButton]="false"
+                 [showClearButton]="true"
+                 style="margin-bottom: 20px">
+  </sk-select-box>
+
+  <sk-select-box *ngFor="let specializationSelectionVm of specialitySelectionVm.specializationSelectionVms"
+                 [(value)]="specializationSelectionVm.selectedId"
+                 (valueChange)="onSomethingChanged()"
+                 [items]="specializationSelectionVm.awailableSpecializations"
+                 placeholder="Специализация..."
+                 valueExpr="id"
+                 displayExpr="name"
+                 [showDropDownButton]="false"
+                 [showClearButton]="true"
+                 style="margin-bottom: 20px">
+
+  </sk-select-box>
+
+  <sk-select-box *ngFor="let skillSelectionVm of specialitySelectionVm.skillSelectionVms"
+                 [(value)]="skillSelectionVm.selectedId"
+                 (valueChange)="onSomethingChanged()"
+                 [items]="skillSelectionVm.awailableSkills"
+                 placeholder="Знания..."
+                 valueExpr="id"
+                 displayExpr="name"
+                 [showDropDownButton]="false"
+                 groupingFieldName="groupName"
+                 sortingGroupsFieldName="rank"
+                 [showClearButton]="true"
+                 style="margin-bottom: 20px">
+
+  </sk-select-box>
+
+</div>
+
+

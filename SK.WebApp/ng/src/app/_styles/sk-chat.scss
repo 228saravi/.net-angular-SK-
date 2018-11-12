@@ -1,0 +1,237 @@
+@import 'sk-variables.scss';
+
+$sk-company-dialogs-dark-bg-color: #303773;
+$sk-company-dialogs-light-bg-color: #EBE8F0;
+
+$sk-company-dialogs-dark-text-color: #474252;
+$sk-company-dialogs-light-text-color: #FFFFFF;
+
+
+div.sk-chat-connection {
+  display: grid;
+  grid-template-columns: 104px auto auto;
+  grid-template-rows: 50% 50%;
+  height: 104px;
+  cursor: pointer;
+  border-bottom: solid 1px #E8E5EE;
+  padding-right: $sk-grid-offset * 3;
+
+  & > div.image {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    position: relative;
+    padding: 18px;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    & > div.badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 23px;
+      height: 23px;
+      background-color: $sk-accent-color-01;
+      border-radius: 50%;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  & > div.name {
+    grid-column: 2;
+    grid-row: 1;
+
+    @extend %bold-text;
+    font-size: 16px;
+    padding-top: 28px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & > div.time {
+    grid-column: 3;
+    grid-row: 1;
+
+    @extend %light-text;
+    font-size: 14px;
+    text-align: right;
+    padding-top: 30px;
+  }
+
+  & > div.msg {
+    grid-column: 2 / span 2;
+    grid-row: 2;
+    height: 20px; // one line;
+    @extend %light-text;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.active {
+    background-color: $sk-company-dialogs-dark-bg-color;
+
+    & > div.name {
+      color: $sk-company-dialogs-light-text-color;
+    }
+
+    & > div.time {
+      color: $sk-company-dialogs-light-text-color;
+    }
+
+    & > div.msg {
+      color: $sk-company-dialogs-light-text-color;
+    }
+  }
+}
+
+div.sk-chat-messages {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  height: 100%;
+
+  & > div.messages {
+    flex-grow: 1;
+    position: relative;
+    margin-bottom: $sk-grid-offset * 5;
+  }
+
+  & > div.new-message {
+    flex-grow: 0;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    justify-content: center;
+
+    & > div.text {
+      flex-grow: 1;
+      margin-right: $sk-grid-offset * 3;
+    }
+
+    & > div.buttons {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+
+      & > div.check-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 12px;
+
+
+        & > span.label {
+          color: $sk-company-dialogs-dark-text-color;
+          font-size: 12px;
+          line-height: 18px;
+          margin-left: 6px;
+        }
+      }
+
+      & > button {
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+div.sk-chat-message {
+  border-radius: 3px;
+  margin: 20px 0;
+  padding: 10px;
+  overflow: hidden;
+
+  & > div.text {
+    margin-bottom: $sk-grid-offset * 2;
+  }
+
+  & > div.data {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    & > div.date {
+      flex-grow: 1;
+    }
+
+    & > div.time {
+    }
+
+    & > div.status {
+      margin-left: 9px;
+    }
+  }
+
+  &.outgoing {
+    color: $sk-company-dialogs-dark-text-color;
+    background: $sk-company-dialogs-light-bg-color;
+    margin-right: 30px;
+  }
+
+  &.incoming {
+    color: $sk-company-dialogs-light-text-color;
+    background: $sk-company-dialogs-dark-bg-color;
+    margin-left: 30px;
+  }
+}
+
+div.sk-chat-details {
+  & > div.menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: $sk-grid-offset * 8;
+
+    & > div.item {
+      margin-right: $sk-grid-offset * 3;
+      font-size: 14px;
+      color: $sk-accent-color-01;
+      cursor: pointer;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &.active {
+        color: $sk-accent-color-02;
+      }
+    }
+  }
+
+  & > div.card-slot {
+    padding: 3px;
+    margin-bottom: $sk-grid-offset * 5;
+
+    & > * {
+      width: initial;
+    }
+  }
+
+  & > div.buttons {
+  }
+}

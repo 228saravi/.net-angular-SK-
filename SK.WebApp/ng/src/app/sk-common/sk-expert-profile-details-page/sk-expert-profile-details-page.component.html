@@ -1,0 +1,342 @@
+<div class="sk-page">
+  <div class="nav">
+    <sk-nav></sk-nav>
+  </div>
+
+  <div class="body">
+    <div class="content with-sticky-aside">
+      <div class="main" style="padding: 32px 0;">
+        <div *ngIf="notFound">Данная страница недоступна</div>
+        <div class="sk-details-page-content" *ngIf="vm">
+          <div>
+            <div class="left">
+              <div class="sk-details">
+
+                <div class="header" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.headerEditing">
+                  <div class="controls" *ngIf="vm.isMyProfile">
+                    <button (click)="vm.editHeader()" [disabled]="vm.isSomethingEditing">изменить</button>
+                  </div>
+                  <div class="content">
+                    <div class="image" *ngIf="vm.profile.speciality.id">
+                      <sk-speciality-icon [specialityId]="vm.profile.speciality.id" height="55"></sk-speciality-icon>
+                    </div>
+                    <div class="info main">
+                      <div class="main">
+                        <div class="sk-text-with-budge">
+                          <div class="text">
+                            {{vm.profile.name}}
+                          </div>
+                          <div class="budge">
+                            <sk-rating [value]="vm.profile.rating" class="block"></sk-rating>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="extra">{{vm.profile.speciality.specialization ? vm.profile.speciality.specialization.name : vm.profile.speciality.name}}</div>
+                    </div>
+                    <div class="info">
+                      <div class="main">
+                        <span *ngIf="vm.profile.ratePerHour">
+                          {{vm.profile.ratePerHour}} р/ч
+                        </span>
+                        <span *ngIf="!vm.profile.ratePerHour">Не указано</span>
+                      </div>
+                      <div class="extra">Почасовая ставка</div>
+                    </div>
+                  </div>
+                </div>
+                <form class="field-set" [ngClass]="{'focused': vm.headerEditing }" #headerInfoForm="ngForm" *ngIf="vm.headerEditing" (keyup.enter)="submit(headerInfoForm)" (ngSubmit)="onHeaderSubmit($event, headerInfoForm)">
+                  <div class="header">
+                    <div class="text">
+                    </div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(headerInfoForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Имя</div>
+                      <div class="value control">
+                        <sk-text-box name="name" [(ngModel)]="vm.headerEditing.name" style="width: 100%"></sk-text-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Почасовая ставка</div>
+                      <div class="value control">
+                        <sk-text-box name="ratePerHour" [(ngModel)]="vm.headerEditing.ratePerHour" mode="number" style="width: 100%"></sk-text-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Специальность</div>
+                      <div class="value control">
+                        <sk-select-box name="speciality"
+                                       [(ngModel)]="vm.headerEditing.selectedSpecialityId"
+                                       [items]="vm.headerEditing.skillsMatrix.specialities"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Специализация</div>
+                      <div class="value control">
+                        <sk-select-box name="specialization"
+                                       [(ngModel)]="vm.headerEditing.selectedSpecializationId"
+                                       [items]="vm.headerEditing.specializationsForSelectedSpeciality"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="field-set" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.mainInfoEditing">
+                  <div class="header">
+                    <div class="text">
+                      Основная информация
+                    </div>
+                    <div class="controls" *ngIf="vm.isMyProfile">
+                      <button (click)="vm.editMainInfo()" [disabled]="vm.isSomethingEditing">изменить</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Город</div>
+                      <div class="value">
+                        <span *ngIf="vm?.profile?.city?.name">{{vm.profile.city.name}}</span>
+                        <span *ngIf="!vm?.profile?.city?.name">Не указано</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Стаж</div>
+                      <div class="value">
+                        <span>{{vm?.profile?.experience?.name || 'Не указано'}}</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Языки</div>
+                      <div class="value" *ngIf="vm.profile.languages.length > 0">
+                        <ul>
+                          <li *ngFor="let lang of vm.profile.languages">
+                            {{lang.name}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="value" *ngIf="vm.profile.languages.length == 0">
+                        Не указано
+                      </div>
+                    </div>
+                    <div class="field" *ngFor="let group of vm.profile.speciality.skillsGroups">
+                      <div class="label">{{group.name}}</div>
+                      <div class="value">
+                        <ul>
+                          <li *ngFor="let skill of group.skills">
+                            {{skill.name}}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form class="field-set" [ngClass]="{'focused': vm.mainInfoEditing }" #mainInfoForm="ngForm" *ngIf="vm.mainInfoEditing" (keyup.enter)="submit(mainInfoForm)" (ngSubmit)="onMainInfoSubmit($event, mainInfoForm)">
+                  <div class="header">
+                    <div class="text">
+                      Основная информация
+                    </div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(mainInfoForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Город</div>
+                      <div class="value control">
+                        <sk-select-box name="city"
+                                       [(ngModel)]="vm.mainInfoEditing.selectedCityId"
+                                       [items]="vm.mainInfoEditing.allCities"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Стаж</div>
+                      <div class="value control">
+                        <sk-select-box name="experience"
+                                       [(ngModel)]="vm.mainInfoEditing.experienceOptionId"
+                                       [items]="vm.mainInfoEditing.allExperienceOptions"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Языки</div>
+                      <div class="value" *ngIf="vm.mainInfoEditing.languages.length > 0">
+                        <div *ngFor="let lang of vm.mainInfoEditing.languages" style="position: relative;">
+                          <sk-check-box [name]="lang.id" [(ngModel)]="lang.selected" style="position: absolute; top: 0; left: -25px;"></sk-check-box>
+                          <span style="text-indent: 0;">{{lang.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field" *ngFor="let group of vm.mainInfoEditing.skillsGroups">
+                      <div class="label">{{group.name}}</div>
+                      <div class="value">
+                        <div *ngFor="let skill of group.skills" style="position: relative;">
+                          <sk-check-box [name]="skill.id" [(ngModel)]="skill.selected" style="position: absolute; top: 0; left: -25px;"></sk-check-box>
+                          <span style="text-indent: 0;">{{skill.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="field-set" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.extraInfoEditing">
+                  <div class="header">
+                    <div class="text">Дополнительная информация</div>
+                    <div class="controls" *ngIf="vm.isMyProfile">
+                      <button (click)="vm.editExtraInfo()" [disabled]="vm.isSomethingEditing">изменить</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Размер одежды</div>
+                      <div class="value">
+                        <span *ngIf="vm?.profile?.clothingSize?.name">{{vm.profile.clothingSize.name}}</span>
+                        <span *ngIf="!vm?.profile?.clothingSize?.name">Не указано</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Документы</div>
+                      <div *ngIf="vm.profile.documents.length > 0" class="value">
+                        <ul>
+                          <li *ngFor="let doc of vm.profile.documents">
+                            {{doc.name}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="vm.profile.documents.length == 0" class="value">
+                        Не указано
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form class="field-set" [ngClass]="{'focused': vm.extraInfoEditing }" #extraInfoForm="ngForm" *ngIf="vm.extraInfoEditing" (keyup.enter)="submit(extraInfoForm)" (ngSubmit)="onExtraInfoSubmit($event, extraInfoForm)">
+                  <div class="header">
+                    <div class="text">Дополнительная информация</div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(extraInfoForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Размер одежды</div>
+                      <div class="value control">
+                        <sk-select-box name="ratePerHour"
+                                       [(ngModel)]="vm.extraInfoEditing.selectedClothingSizeId"
+                                       [items]="vm.extraInfoEditing.allClothingSizes"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Документы</div>
+                      <div *ngIf="vm.extraInfoEditing.ducumentSelectionVms.length > 0" class="value">
+                        <div *ngFor="let doc of vm.extraInfoEditing.ducumentSelectionVms" style="position: relative;">
+                          <sk-check-box [name]="doc.id" [(ngModel)]="doc.selected" style="position: absolute; top: 0; left: -25px;"></sk-check-box>
+                          <span style="text-indent: 0;">{{doc.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="block" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.aboutMeEditing">
+                  <div class="header">
+                    <div class="text">О себе</div>
+                    <div class="controls" *ngIf="vm.isMyProfile">
+                      <button (click)="vm.editAboutMe()" [disabled]="vm.isSomethingEditing">изменить</button>
+                    </div>
+                  </div>
+                  <div class="body">
+                    <sk-formatted-text *ngIf="vm.profile.aboutMeHtml" [html]="vm.profile.aboutMeHtml"></sk-formatted-text>
+                    <p *ngIf="!vm.profile.aboutMeHtml">Не указано</p>
+                  </div>
+                </div>
+                <form class="block" [ngClass]="{'focused': vm.aboutMeEditing }" #aboutMeForm="ngForm" *ngIf="vm.aboutMeEditing" (keyup.enter)="submit(aboutMeForm)" (ngSubmit)="onAboutMeSubmit($event, aboutMeForm)">
+                  <div class="header">
+                    <div class="text">О себе</div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(aboutMeForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="body">
+                    <sk-formatted-text-editor name="text" [(ngModel)]="vm.aboutMeEditing.html"></sk-formatted-text-editor>
+                  </div>
+                </form>
+
+                <div class="block"></div>
+
+              </div>
+            </div>
+            <div class="right" [ngClass]="{'blured': vm.isSomethingEditing}">
+              <div class="controls">
+                <ng-container *ngIf="canCurrentUserConnect">
+                  <sk-button class="big full-width" text="Пригласить" (click)="onConnectClick(vm?.res?.expertProfile?.id)"></sk-button>
+                </ng-container>
+                <ng-container *ngIf="vm.isMyProfile">
+                  <ng-container *ngIf="!vm?.profile?.isPublished">
+                    <div>
+                      <sk-button class="big full-width" text="Опубликовать" (click)="onPublishClick()"></sk-button>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="vm?.profile?.isPublished">
+                    <div>
+                      <div class="sk-status">
+                        Опубликовано
+                      </div>
+                    </div>
+                    <div>
+                      <sk-button class="context full-width" text="Снять с публикации" (click)="onUnpublishClick()"></sk-button>
+                    </div>
+                  </ng-container>
+                </ng-container>
+                
+              </div>
+              <div class="logo">
+                <img *ngIf="vm.profile.photoImageUrl" [src]="vm.profile.photoImageUrl" style="display: block; margin-bottom: 1em;" />
+                <div class="no-image" *ngIf="!vm.profile.photoImageUrl"></div>
+                <div class="controls">
+                  <div>
+                    <sk-file-uploader #photoUploader *ngIf="vm.isMyProfile" [disabled]="vm.isSomethingEditing" [uploadUrl]="vm.photoUploadUrl" (uploaded)="onUploaded($event)"></sk-file-uploader>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="footer">
+    <div>
+      Footer
+    </div>
+  </div>-->
+
+</div>
+
+<sk-connect-company-to-expert-popup #connectCompanyToExpertPopup></sk-connect-company-to-expert-popup>
+<dx-popover #popover></dx-popover>
+

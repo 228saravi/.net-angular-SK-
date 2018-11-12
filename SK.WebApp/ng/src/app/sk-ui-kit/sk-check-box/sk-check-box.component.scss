@@ -1,0 +1,29 @@
+@import '../../_styles/sk-variables.scss';
+
+:host {
+  display: inline-block;
+
+  ::ng-deep {
+    dx-check-box {
+      display: block;
+
+      &.dx-checkbox-checked .dx-checkbox-icon {
+        background-color: $sk-main-color;
+      }
+    }
+
+    .dx-checkbox-text {
+      font-family: $sk-font-family;
+      margin-left: $sk-grid-offset * 3;
+      padding-left: 0;
+    }
+  }
+
+  &.with-light-text {
+    ::ng-deep {
+      .dx-checkbox-text {
+        color: $sk-light-text-color;
+      }
+    }
+  }
+}

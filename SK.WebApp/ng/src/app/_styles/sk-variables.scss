@@ -1,0 +1,46 @@
+$sk-font-family: 'Open Sans', sans-serif ;
+
+$sk-grid-offset: 3px;
+
+$sk-content-width: 1232px;
+$sk-aside-width: 328px;
+$sk-aside-margin: 84px;
+
+$sk-main-color: #201E21;
+$sk-accent-color-01: #00BABA;
+$sk-accent-color-02: #E2208D;
+$sk-main-border-color: #F0F0F3;
+
+$sk-normal-text-color: #000000;
+$sk-light-text-color: lighten($sk-normal-text-color, 40%);
+$sk-bold-text-color: lighten($sk-normal-text-color, 13%);
+
+$sk-highlight-color: #F89A42;
+$sk-error-color: #EB5757;
+$sk-success-color: #2FD676;
+
+$sk-shadow: 0 2px 4px 0 rgba(0,0,0,0.25);
+
+%normal-text {
+  color: $sk-normal-text-color;
+  font-weight: 400;
+}
+
+%light-text {
+  color: $sk-light-text-color;
+  font-weight: 400;
+}
+
+%semi-bold-text {
+  color: $sk-bold-text-color;
+  font-weight: 600;
+}
+
+%bold-text {
+  color: $sk-bold-text-color;
+  font-weight: 700;
+}
+
+%with-shadow {
+  box-shadow: $sk-shadow;
+}

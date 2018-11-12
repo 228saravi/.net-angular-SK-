@@ -1,0 +1,15 @@
+<dx-select-box #dxSelectBox
+               [(value)]="value"
+               [dataSource]="dataSource"
+               [placeholder]="placeholder"
+               [valueExpr]="valueExpr"
+               [displayExpr]="displayExpr"
+               [showClearButton]="showClearButton"
+               [grouped]="groupingFieldName != null"
+               [ngClass]="{'hide-drop-down-button': !showDropDownButton}">
+  <!--<div *dxTemplate="let data of 'fieldTemplate'">
+    hello!
+  </div>-->
+</dx-select-box>
+
+<!--[fieldTemplate] ="groupingFieldName != null ? 'fieldTemplate' : null"-->

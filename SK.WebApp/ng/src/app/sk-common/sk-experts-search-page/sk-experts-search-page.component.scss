@@ -1,0 +1,22 @@
+@import '../../_styles/sk-page.scss';
+@import '../../_styles/sk-card.scss';
+@import '../../_styles/sk-placeholder.scss';
+
+:host {
+  display: block;
+  height: 100%;
+
+  div.sk-experts-searsh-page-cards {
+    & > div.card-slot:not(:last-of-type) {
+      margin-bottom: 32px;
+    }
+  }
+
+  div.load-more-button-slot {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px;
+  }
+}

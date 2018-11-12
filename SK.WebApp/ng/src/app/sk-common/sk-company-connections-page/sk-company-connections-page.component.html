@@ -1,0 +1,249 @@
+<div class="sk-page">
+  <div class="nav">
+    <sk-nav></sk-nav>
+  </div>
+
+  <div class="body">
+    <div class="content with-sticky-aside">
+      <div class="aside" style="width: 328px; height: calc(100vh - 56px); top: 50px; box-shadow: 1px 2px 4px 0 rgba(0,0,0,0.25);">
+
+        <div class="sk-company-connections-page-filter">
+
+          <div class="header">
+            Ваши мероприятия
+          </div>
+
+          <div class="tabs-slot" [ngClass]="{'hidden': !vm?.filterVm?.company}">
+            <sk-tabs #eventsTabs>
+              <sk-tabs-item text="Активные" [selectedByDefault]="false" (clicked)="vm?.filterVm?.setFilter('Active'); updateEventsTabsIndexInUrl(0)"></sk-tabs-item>
+              <sk-tabs-item text="Архивные" (clicked)="vm?.filterVm?.setFilter('Archive'); updateEventsTabsIndexInUrl(1)"></sk-tabs-item>
+            </sk-tabs>
+          </div>
+
+          <div class="controls-slot" [ngClass]="{'hidden': !vm?.filterVm?.company}" *ngIf="vm?.filterVm?.filterMode == 'Active'">
+            <sk-button class="context full-width" text="Добавить мероприятие" (click)="vm?.filterVm.addEvent()"></sk-button>
+          </div>
+
+          <div class="main" [ngClass]="{'hidden': !vm?.filterVm?.company}">
+            <dx-scroll-view style="position: absolute; top: 0; right: 0; bottom: 0; left: 0" direction="both">
+
+              <ng-container *ngFor="let event of vm?.filterVm?.filteredEvents">
+
+                <div class="sk-company-connections-page-card" [ngClass]="{ 'selected': event.id == vm?.filterVm?.selectedEventId }" *ngIf="event.isPublished" (click)="vm?.filterVm?.selectEvent(event.id)">
+                  <div class="count" *ngIf="vm?.filterVm?.filterMode == 'Active' && event?.incomingConnectionsCount">+{{event?.incomingConnectionsCount}}</div>
+                  <div class="header">
+                    {{event?.name || 'Не указано'}}
+                  </div>
+                  <div class="field">
+                    <div class="label">
+                      <img src="../../../assets/sk-calendar-icon.svg" />
+                    </div>
+                    <div class="value" style="font-weight: 600">{{(event.startTime | time) || 'Не указано'}} - {{(event.endTime | time) || 'Не указано'}}</div>
+                  </div>
+                  <div class="field">
+                    <div class="label">
+                      <img src="../../../assets/sk-place-point-icon.svg" />
+                    </div>
+                    <div class="value">{{event.address || 'Не указано'}}</div>
+                  </div>
+                  <div class="bottom-line">
+                    <div class="left">
+                      <div class="sk-vacancies-data">
+                        <div>
+                          <img src="../../../assets/sk-cook-icon.svg" />
+                          <span>{{event?.connectedCooksCount || 0}}/{{event?.totalCooksCount || 0}}</span>
+                        </div>
+                        <div>
+                          <img src="../../../assets/sk-barman-icon.svg" />
+                          <span>{{event.connectedBarmansCount || 0}}/{{event.totalBarmansCount || 0}}</span>
+                        </div>
+                        <div>
+                          <img src="../../../assets/sk-waiter-icon.svg" />
+                          <span>{{event.connectedWaitersCount || 0}}/{{event.totalWaitersCount || 0}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="right">
+                      <sk-dropdown-button>
+                        <sk-dropdown-button-item text="Изменить" (clicked)="vm?.filterVm.editEvent(event.id)"></sk-dropdown-button-item>
+                        <sk-dropdown-button-item text="Удалить" (clicked)="vm?.filterVm.deleteEvent(event.id)"></sk-dropdown-button-item>
+                      </sk-dropdown-button>
+                    </div>
+                  </div>
+                </div>
+
+                <ng-container *ngIf="event.id == vm?.filterVm?.selectedEventId">
+                  <div style="margin: 0 15px">
+                    <sk-button class="context full-width" text="Добавить вакансию" *ngIf="vm?.filterVm?.filterMode == 'Active'" (click)="vm?.filterVm.addVacancy(event.id)"></sk-button>
+                  </div>
+
+                  <ng-container *ngFor="let vac of event.vacancies">
+                    <div class="sk-company-connections-page-card deep" [ngClass]="{'selected': vac.id == vm?.filterVm?.selectedVacancyId}" *ngIf="vac.isPublished" (click)="vm.filterVm.selectVacancy(vac.id)">
+                      <div class="count" *ngIf="vm?.filterVm?.filterMode == 'Active' && vac.incomingConnectionsCount">+{{vac.incomingConnectionsCount}}</div>
+                      <div class="header">
+                        {{vac?.speciality?.specialization?.name || vac?.speciality?.name || 'Специальность не выбрана'}}
+                      </div>
+                      <div class="extra-info">
+                        Начало работы: <strong>{{vac.startTime | time}}</strong>
+                      </div>
+                      <div class="extra-info">
+                        Осталось мест: <strong>{{vac.amount - vac.connectedExpertsCount}}</strong>
+                      </div>
+                      <div class="bottom-line">
+                        <div class="left"></div>
+                        <div class="right">
+                          <sk-dropdown-button>
+                            <sk-dropdown-button-item text="Изменить" (clicked)="vm?.filterVm.editVacancy(vac.id)"></sk-dropdown-button-item>
+                            <sk-dropdown-button-item text="Удалить" (clicked)="vm?.filterVm.deleteVacancy(vac.id)"></sk-dropdown-button-item>
+                          </sk-dropdown-button>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+
+
+                </ng-container>
+
+              </ng-container>
+
+            </dx-scroll-view>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="main">
+
+        <div class="sk-company-connections-page-connections">
+
+          <div class="header">
+            Отклики на вакансии по мероприятиям
+          </div>
+
+          <!--<div *ngIf="!vm?.connectionsVm?.vacancy" style="margin-top: 29px">
+            Выберите вакансию из списка слева
+          </div>-->
+
+          <div class="sk-placeholder" *ngIf="!vm?.connectionsVm?.vacancy">
+            <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+            <div class="message">Выберите вакансию из списка слева, чтобы увидеть все доступные отклики по ней</div>
+          </div>
+
+          <div class="tabs-slot" [ngClass]="{'hidden': !vm?.connectionsVm?.vacancy || vm?.filterVm?.filterMode == 'Archive'}">
+            <sk-tabs #connectionsTabsComponent>
+              <sk-tabs-item text="Принятые" [badge]="vm?.connectionsVm?.connectedConnections.length" [selectedByDefault]="false" (clicked)="vm?.connectionsVm.setFilter('Connected'); updateConnectionsTabsIndexInUrl(0)"></sk-tabs-item>
+              <sk-tabs-item text="Входящие" [badge]="vm?.connectionsVm?.incomingConnections.length" (clicked)="vm?.connectionsVm.setFilter('Incoming'); updateConnectionsTabsIndexInUrl(1)"></sk-tabs-item>
+              <sk-tabs-item text="Исходящие" [badge]="vm?.connectionsVm?.outgoingConnections.length" (clicked)="vm?.connectionsVm.setFilter('Outgoing'); updateConnectionsTabsIndexInUrl(2)"></sk-tabs-item>
+            </sk-tabs>
+          </div>
+          <div class="cards" [ngClass]="{'hidden': !vm?.connectionsVm?.vacancy}">
+
+            <!--<ng-container *ngIf="vm?.connectionsVm?.filteredConnections?.length == 0">
+    Нет
+  </ng-container>-->
+
+            <div class="sk-placeholder" *ngIf="vm?.filterVm?.filterMode == 'Active' && vm?.connectionsVm?.filterMode == 'Connected' && vm?.connectionsVm?.filteredConnections?.length == 0">
+              <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+              <div class="message">У вас еще нет утвержденных специалистов на эту вакансию</div>
+              <a class="link" [routerLink]="['/experts']">Найти подходящих специалистов</a>
+            </div>
+
+            <div class="sk-placeholder" *ngIf="vm?.filterVm?.filterMode == 'Archive' && vm?.connectionsVm?.filterMode == 'Connected' && vm?.connectionsVm?.filteredConnections?.length == 0">
+              <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+              <div class="message">По этой вакансии вы не нашли подходящих специалистов</div>
+            </div>
+
+            <div class="sk-placeholder" *ngIf="vm?.connectionsVm?.filterMode == 'Incoming' && vm?.connectionsVm?.filteredConnections?.length == 0">
+              <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+              <div class="message">Вы рассмотрели все отклики по этой вакансии</div>
+            </div>
+
+            <div class="sk-placeholder" *ngIf="vm?.connectionsVm?.filterMode == 'Outgoing' && vm?.connectionsVm?.filteredConnections?.length == 0">
+              <img src="../../../assets/sk-no-connections-placeholder-image.svg" />
+              <div class="message">Все ваши приглашения по вакансии были рассмотрены</div>
+              <a class="link" [routerLink]="['/experts']">Найти подходящих специалистов</a>
+            </div>
+
+            <div class="card-slot" *ngFor="let c of vm?.connectionsVm.filteredConnections">
+
+              <div class="sk-horizontal-card expert">
+                <div class="extra">
+                  <a [routerLink]="['/experts', c.expert.id]">
+                    <img *ngIf="c.expert.photoImageUrl" [src]="c.expert.photoImageUrl" />
+                    <div *ngIf="!c.expert.photoImageUrl" class="no-image"></div>
+                  </a>
+                </div>
+                <div class="main">
+                  <div class="header">
+                    <div class="logo-slot">
+                      <sk-speciality-icon [specialityId]="c.expert.speciality.id" height="42"></sk-speciality-icon>
+                    </div>
+                    <div class="line-1">
+                      <div class="main">
+                        <a [routerLink]="['/experts', c.expert.id]">
+                          {{c.expert.name}}
+                        </a>
+                        <sk-rating [value]="c.expert.rating"></sk-rating>
+                      </div>
+                      <div class="extra">{{c?.expert?.speciality?.specialization?.name || c?.expert?.speciality?.name || 'Не указано'}}</div>
+                    </div>
+                    <div class="line-2">
+                      {{c.expert.ratePerHour}} р/ч
+                    </div>
+                  </div>
+                  <div class="field-set">
+                    <div class="field">
+                      <div class="label">Город</div>
+                      <div class="value">{{c?.expert?.city?.name || 'Не указано'}}</div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Стаж</div>
+                      <div class="value">{{c?.expert?.experience?.name || 'Не указано'}}</div>
+                    </div>
+                    <div class="field" *ngFor="let group of c.expert.speciality.skillsGroups">
+                      <div class="label">{{group.name}}</div>
+                      <div class="value">
+                        <span>
+                          {{group.skills[0].name}}
+                        </span>
+                        <span #extra class="extra" *ngIf="group.skills.length > 1" (click)="popover.instance.show()">
+                          <span>+ ещё {{group.skills.length-1}}</span>
+                          <dx-popover #popover [target]="extra">
+                            <div *dxTemplate="let data of 'content'">
+                              <div class="sk-popover-content">
+                                <div class="header">{{group.name}}</div>
+                                <ul>
+                                  <li *ngFor="let s of group.skills">
+                                    {{s.name}}
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </dx-popover>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bottom-line">
+                    <div class="info"></div>
+                    <div class="controls">
+                      <div class="sk-status" *ngIf="c.status == ConnectionStatuses.canceled">Отменён</div>
+                      <sk-button class="context" text="Отменить" *ngIf="vm.connectionsVm.isConnectionCancelable(c)" (click)="vm.connectionsVm.cancelConnection(c.id)"></sk-button>
+                      <sk-button text="Принять" *ngIf="vm.connectionsVm.isConnectionApprovable(c)" (click)="vm.connectionsVm.approveConnection(c.id)"></sk-button>
+                      <sk-button text="Оставить отзыв" *ngIf="vm.connectionsVm.isConnectionFeedbackable(c)" (click)="postFeedback(c.id)"></sk-button>
+                      <sk-button text="Написать" *ngIf="vm.connectionsVm.doesConnectionAllowMessaging(c)" (click)="message(c.id)"></sk-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<sk-feedback-popup #feedbackPopup></sk-feedback-popup>

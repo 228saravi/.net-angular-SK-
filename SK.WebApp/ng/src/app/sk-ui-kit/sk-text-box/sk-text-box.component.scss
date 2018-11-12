@@ -1,0 +1,29 @@
+@import '../../_styles/sk-variables.scss';
+
+:host {
+  display: block;
+  width: 100%;
+
+  ::ng-deep {
+    .dx-texteditor:not(.dx-textarea) .dx-texteditor-container:after,
+    .dx-texteditor:not(.dx-textarea).dx-state-focused .dx-texteditor-container:after,
+    .dx-texteditor:not(.dx-textarea).dx-state-active .dx-texteditor-container:after {
+      border-color: $sk-main-color; // Основной цвет подчёркивания
+    }
+
+    .dx-texteditor:not(.dx-textarea) .dx-texteditor-container:before,
+    .dx-texteditor:not(.dx-textarea).dx-state-focused .dx-texteditor-container:before,
+    .dx-texteditor:not(.dx-textarea).dx-state-active .dx-texteditor-container:before {
+      border-color: $sk-main-color; // Цвет подчёркивания в фокусе.
+    }
+
+    .dx-invalid.dx-texteditor .dx-texteditor-buttons-container:not(:first-of-type):after {
+      position: absolute;
+      left: -1px !important;
+    }
+
+    .dx-texteditor.dx-editor-standard.dx-show-clear-button .dx-texteditor-input {
+      padding-right: 0;
+    }
+  }
+}

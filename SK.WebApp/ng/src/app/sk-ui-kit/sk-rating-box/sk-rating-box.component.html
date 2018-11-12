@@ -1,0 +1,6 @@
+<button class="star" type="button" (click)="updateValue(1)" [ngClass]="{'selected': value >= 1}"></button>
+<button class="star" type="button" (click)="updateValue(2)" [ngClass]="{'selected': value >= 2}"></button>
+<button class="star" type="button" (click)="updateValue(3)" [ngClass]="{'selected': value >= 3}"></button>
+<button class="star" type="button" (click)="updateValue(4)" [ngClass]="{'selected': value >= 4}"></button>
+<button class="star" type="button" (click)="updateValue(5)" [ngClass]="{'selected': value >= 5}"></button>
+<div class="error-message" *ngIf="errorMessage">{{errorMessage}}</div>

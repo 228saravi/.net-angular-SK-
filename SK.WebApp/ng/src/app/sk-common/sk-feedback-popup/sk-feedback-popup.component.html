@@ -1,0 +1,49 @@
+<dx-popup #popup
+          [showTitle]="false"
+          title="Вход"
+          width="420px"
+          height="295px"
+          [closeOnBackButton]="true"
+          [closeOnOutsideClick]="true"
+          (onHidden)="onHidden()">
+  <div *dxTemplate="let data of 'content'">
+
+    <div class="sk-feedback-popup-content" *ngIf="vm">
+      <div class="text" *ngIf="vm.mode == 'ForExpert'">
+        Пожалуйста, поставьте оценку специалисту
+      </div>
+      <div class="text" *ngIf="vm.mode == 'ForCompany'">
+        Пожалуйста, поставьте оценку  работодателю
+      </div>
+      <form #form="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="fields">
+          <div>
+            <sk-rating-box #ratingControl="ngModel"
+                           name="rating"
+                           [(ngModel)]="vm.rating"
+                           required
+                           [errorMessage]="detectRatingErrorMessage(ratingControl)">
+            </sk-rating-box>
+          </div>
+          <!--<div>
+        <sk-formatted-text-editor #commentControl="ngModel"
+                                  name="text"
+                                  [(ngModel)]="vm.comment">
+        </sk-formatted-text-editor>
+      </div>-->
+        </div>
+
+        <div class="actions">
+          <sk-button class="big" text="Опубликовать" [useSubmitBehavior]="true" [disabled]="form.form.invalid"></sk-button>
+          <!--<sk-button text="Отмена" class="full-width" [useSubmitBehavior]="false" (click)="hide()"></sk-button>-->
+        </div>
+
+      </form>
+    </div>
+
+
+
+  </div>
+</dx-popup>
+

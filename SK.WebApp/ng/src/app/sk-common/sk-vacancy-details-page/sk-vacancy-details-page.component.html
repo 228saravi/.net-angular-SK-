@@ -1,0 +1,447 @@
+<div class="sk-page">
+  <div class="nav">
+    <sk-nav></sk-nav>
+  </div>
+
+  <div class="body">
+    <div class="content with-sticky-aside">
+      <div class="main" style="padding: 32px 0;">
+        <div *ngIf="vm && vm.vac == null">
+          Данная страница недоступна
+        </div>
+
+        <div class="sk-details-page-content" *ngIf="vm && vm.vac">
+
+          <div>
+            <div class="left">
+
+              <div class="sk-details">
+
+                <div class="header" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.headerEditing">
+                  <div class="controls" *ngIf="vm.isMyVacancy && !vm.isEventOver">
+                    <button (click)="vm.editHeader()">Изменить</button>
+                  </div>
+                  <div class="content">
+                    <div class="image" *ngIf="vm?.vac?.speciality?.id">
+                      <sk-speciality-icon [specialityId]="vm?.vac?.speciality?.id" height="55"></sk-speciality-icon>
+                    </div>
+                    <div class="info main">
+                      <div class="main">
+                        <span *ngIf="vm?.vac?.speciality">{{vm.vac.speciality.specialization ? vm.vac.speciality.specialization.name : vm.vac.speciality.name}}</span>
+                        <span *ngIf="!vm?.vac?.speciality">Не указано</span>
+                      </div>
+                      <div class="extra">Требуется специалистов: {{vm?.vac?.amount || 'Не указано'}}</div>
+                    </div>
+                    <div class="info">
+                      <div class="main">
+                        <span *ngIf="vm?.vac?.ratePerHour">
+                          {{vm.vac.ratePerHour}} р/ч
+                        </span>
+                        <span *ngIf="!vm.vac.ratePerHour">Не указано</span>
+                      </div>
+                      <div class="extra">Почасовая ставка</div>
+                    </div>
+                  </div>
+                </div>
+                <form class="field-set" [ngClass]="{'focused': vm.headerEditing}" #headerInfoForm="ngForm" *ngIf="vm.headerEditing" (keyup.enter)="submit(headerInfoForm)" (ngSubmit)="onHeaderSubmit($event, headerInfoForm)">
+                  <div class="header">
+                    <div class="text">
+
+                    </div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(headerInfoForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Специальность</div>
+                      <div class="value control">
+                        <sk-select-box name="speciality"
+                                       [(ngModel)]="vm.headerEditing.selectedSpecialityId"
+                                       [items]="vm.headerEditing.skillsMatrix.specialities"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Специализация</div>
+                      <div class="value control">
+                        <sk-select-box name="specialization"
+                                       [(ngModel)]="vm.headerEditing.selectedSpecializationId"
+                                       [items]="vm.headerEditing.specializationsForSelectedSpeciality"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Количество</div>
+                      <div class="value control">
+                        <sk-text-box name="amount" [(ngModel)]="vm.headerEditing.amount" mode="number" style="width: 100%"></sk-text-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Почасовая ставка</div>
+                      <div class="value control">
+                        <sk-text-box name="ratePerHour" [(ngModel)]="vm.headerEditing.ratePerHour" mode="number" style="width: 100%"></sk-text-box>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="field-set" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.mainInfoEditing">
+                  <div class="header">
+                    <div class="text">
+                      Основная информация
+                    </div>
+                    <div class="controls" *ngIf="vm.isMyVacancy && !vm.isEventOver">
+                      <button (click)="vm.editMainInfo()" [disabled]="vm.isSomethingEditing">Изменить</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Начало работы</div>
+                      <div class="value">
+                        <span *ngIf="vm?.vac?.startTime">{{vm?.vac?.startTime | time}}</span>
+                        <span *ngIf="!vm?.vac?.startTime">Не указано</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Адрес</div>
+                      <div class="value">
+                        <span *ngIf="vm?.vac?.event?.address">{{vm?.vac?.event?.address}}</span>
+                        <span *ngIf="!vm?.vac?.event?.address">Не указано</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Стаж</div>
+                      <div class="value">
+                        <span *ngIf="vm?.vac?.experience">{{vm?.vac?.experience?.name}}</span>
+                        <span *ngIf="!vm?.vac?.experience">Не указано</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Рабочих часов</div>
+                      <div class="value">
+                        <span *ngIf="vm?.vac?.workingHours">{{vm?.vac?.workingHours}} ч</span>
+                        <span *ngIf="!vm?.vac?.workingHours">Не указано</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <form class="field-set" [ngClass]="{'focused': vm.mainInfoEditing}" #mainInfoForm="ngForm" *ngIf="vm.mainInfoEditing" (keyup.enter)="submit(mainInfoForm)" (ngSubmit)="onMainInfoSubmit($event, mainInfoForm)">
+                  <div class="header">
+                    <div class="text">
+                      Основная информация
+                    </div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(mainInfoForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Начало работы</div>
+                      <div class="value control">
+                        <sk-date-box name="startTime" [(ngModel)]="vm.mainInfoEditing.startTime" [min]="vm.vac.event.startTime" [max]="vm.vac.event.endTime" type="datetime"></sk-date-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Адрес</div>
+                      <div class="value">
+                        <span *ngIf="vm?.vac?.event?.address">{{vm?.vac?.event?.address}}</span>
+                        <span *ngIf="!vm?.vac?.event?.address">Не указано</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Стаж</div>
+                      <div class="value control">
+                        <sk-select-box name="experience"
+                                       [(ngModel)]="vm.mainInfoEditing.experienceOptionId"
+                                       [items]="vm.mainInfoEditing.allExperienceOptions"
+                                       valueExpr="id"
+                                       displayExpr="name"
+                                       style="width: 100%">
+                        </sk-select-box>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Рабочих часов</div>
+                      <div class="value control">
+                        <sk-text-box name="workingHours" [(ngModel)]="vm.mainInfoEditing.workingHours" mode="number" style="width: 100%"></sk-text-box>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="field-set" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.extraInfoEditing">
+                  <div class="header">
+                    <div class="text">
+                      Дополнительные требования
+                    </div>
+                    <div class="controls" *ngIf="vm.isMyVacancy && !vm.isEventOver">
+                      <button (click)="vm.editExtraInfo()" [disabled]="vm.isSomethingEditing">Изменить</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Языки</div>
+                      <div class="value" *ngIf="vm.vac.languages.length > 0">
+                        <ul>
+                          <li *ngFor="let lang of vm.vac.languages">
+                            {{lang.name}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="value" *ngIf="vm.vac.languages.length == 0">
+                        Не указано
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Документы</div>
+                      <div class="value" *ngIf="vm.vac.documents.length > 0">
+                        <ul>
+                          <li *ngFor="let doc of vm.vac.documents">
+                            {{doc.name}}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="value" *ngIf="vm.vac.documents.length == 0">
+                        Не указано
+                      </div>
+                    </div>
+                    <div class="field" *ngFor="let group of vm?.vac?.speciality?.skillsGroups">
+                      <div class="label">{{group.name}}</div>
+                      <div class="value">
+                        <ul>
+                          <li *ngFor="let skill of group.skills">
+                            {{skill.name}}
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form class="field-set" [ngClass]="{'focused': vm.extraInfoEditing}" #extraInfoForm="ngForm" *ngIf="vm.extraInfoEditing" (keyup.enter)="submit(extraInfoForm)" (ngSubmit)="onExtraInfoSubmit($event, extraInfoForm)">
+                  <div class="header">
+                    <div class="text">
+                      Дополнительные требования
+                    </div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(extraInfoForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="fields">
+                    <div class="field">
+                      <div class="label">Языки</div>
+                      <div class="value" *ngIf="vm.extraInfoEditing.languages.length > 0">
+                        <div *ngFor="let lang of vm.extraInfoEditing.languages" style="position: relative;">
+                          <sk-check-box [name]="lang.id" [(ngModel)]="lang.selected" style="position: absolute; top: 0; left: -25px;"></sk-check-box>
+                          <span style="text-indent: 0;">{{lang.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="label">Документы</div>
+                      <div class="value" *ngIf="vm.extraInfoEditing.documents.length > 0">
+                        <div *ngFor="let doc of vm.extraInfoEditing.documents" style="position: relative;">
+                          <sk-check-box [name]="doc.id" [(ngModel)]="doc.selected" style="position: absolute; top: 0; left: -25px;"></sk-check-box>
+                          <span style="text-indent: 0;">{{doc.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field" *ngFor="let group of vm.extraInfoEditing.skillsGroups">
+                      <div class="label">{{group.name}}</div>
+                      <div class="value">
+                        <div *ngFor="let skill of group.skills" style="position: relative;">
+                          <sk-check-box [name]="skill.id" [(ngModel)]="skill.selected" style="position: absolute; top: 0; left: -25px;"></sk-check-box>
+                          <span style="text-indent: 0;">{{skill.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="block" [ngClass]="{'blured': vm.isSomethingEditing}" *ngIf="!vm.aboutVacancyEditing">
+                  <div class="header">
+                    <div class="text">О вакансии</div>
+                    <div class="controls" *ngIf="vm.isMyVacancy && !vm.isEventOver">
+                      <button (click)="vm.editAboutVacancy()" [disabled]="vm.isSomethingEditing">Изменить</button>
+                    </div>
+                  </div>
+                  <div class="body">
+                    <sk-formatted-text *ngIf="vm.vac.aboutVacancyHtml" [html]="vm.vac.aboutVacancyHtml"></sk-formatted-text>
+                    <p *ngIf="!vm.vac.aboutVacancyHtml">Не указано</p>
+                  </div>
+                </div>
+                <form class="block" [ngClass]="{'focused': vm.aboutVacancyEditing}" #aboutVacancyForm="ngForm" *ngIf="vm.aboutVacancyEditing" (keyup.enter)="submit(aboutVacancyForm)" (ngSubmit)="onAboutVacancySubmit($event, aboutVacancyForm)">
+                  <div class="header">
+                    <div class="text">О вакансии</div>
+                    <div class="controls">
+                      <button type="button" (click)="submit(aboutVacancyForm)">сохранить</button>
+                      <button type="button" (click)="vm.clearAllEditing()">отмена</button>
+                    </div>
+                  </div>
+                  <div class="body">
+                    <sk-formatted-text-editor name="text" [(ngModel)]="vm.aboutVacancyEditing.html"></sk-formatted-text-editor>
+                  </div>
+                </form>
+
+              </div>
+
+            </div>
+            <div class="right" [ngClass]="{'blured': vm.isSomethingEditing}">
+              <div class="controls">
+                <ng-container *ngIf="vm.canCurrentUserConnecting">
+                  <div>
+                    <sk-button class="big full-width" text="Откликнуться" (click)="connect()"></sk-button>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="vm.isCurrentUserAnExpert && vm.isEventOver">
+                  <div *ngIf="vm.vac?.connection?.status == ConnectionStatuses.connected">
+                    <div class="sk-status">Участвовал</div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="vm.isCurrentUserAnExpert && !vm.isEventOver">
+                  <ng-container *ngIf="vm?.vac?.connection?.type == ConnectionTypes.expertToVacancy">
+                    <div *ngIf="vm.vac?.connection?.status == ConnectionStatuses.initiated">
+                      <div class="sk-status">Отклик отправлен</div>
+                    </div>
+                    <div *ngIf="vm.vac?.connection?.status == ConnectionStatuses.connected">
+                      <!--<div class="sk-status">Отклик принят</div>-->
+                      <sk-button class="big full-width" text="Написать" (click)="message(vm.vac?.connection?.id)"></sk-button>
+                    </div>
+                    <div *ngIf="vm.vac?.connection?.status == ConnectionStatuses.initiated || vm.vac?.connection?.status == ConnectionStatuses.connected">
+                      <sk-button class="context full-width " text="Отозвать отклик" (click)="cancelConnection(vm.vac.connection.id)"></sk-button>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="vm?.vac?.connection?.type == ConnectionTypes.vacancyToExpert">
+                    <div *ngIf="vm.vac?.connection?.status == ConnectionStatuses.initiated">
+                      <div class="sk-status">Приглашение получено</div>
+                    </div>
+                    <div *ngIf="vm.vac?.connection?.status == ConnectionStatuses.connected">
+                      <div class="sk-status">Приглашение принято</div>
+                    </div>
+                    <div *ngIf="vm.vac?.connection?.status == ConnectionStatuses.initiated">
+                      <sk-button class="big full-width" text="Принять приглашение" (click)="approveConnection()"></sk-button>
+                    </div>
+                    <div *ngIf="vm.vac?.connection?.status == ConnectionStatuses.initiated || vm.vac?.connection?.status == ConnectionStatuses.connected">
+                      <sk-button class="context full-width" text="Отклонить приглашение" (click)="cancelConnection(vm.vac.connection.id)"></sk-button>
+                    </div>
+                  </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="vm.isMyVacancy && !vm.isEventOver">
+                  <div>
+                    <sk-check-box class="with-light-text" [value]="vm.vac.isPublic" text="Доступна для поисковых систем" (valueChange)="onIsPublicChanged($event)"></sk-check-box>
+                  </div>
+                  <div *ngIf="!vm?.vac?.isPublished">
+                    <sk-button class="big full-width" text="Опубликовать" (click)="onPublishClick()"></sk-button>
+                  </div>
+                  <ng-container *ngIf="vm?.vac?.isPublished">
+                    <div>
+                      <div class="sk-status">
+                        Опубликовано
+                      </div>
+                    </div>
+                    <div>
+                      <sk-button class="context full-width" text="Снять с публикации" (click)="onUnpublishClick()"></sk-button>
+                    </div>
+                  </ng-container>
+                  <div>
+                    <sk-button class="context full-width" text="Удалить" (click)="onDeleteClick()"></sk-button>
+                  </div>
+
+                </ng-container>
+
+                <div class="share-buttons">
+                  <share-button button="vk" description="Такая вот вакансия"></share-button>
+                  <share-button button="facebook"></share-button>
+                  <share-button button="twitter"></share-button>
+                </div>
+
+              </div>
+              <div class="logo">
+                <div class="vertical-card" style="width:100%">
+                  <div class="content" [ngClass]="{'blured': vm.isEventOver}">
+                    <div class="logo">
+                      <a [routerLink]="['/events', vm.vac.event.id]">
+                        <img *ngIf="vm?.vac?.event?.logoImageUrl" [src]="vm.vac.event.logoImageUrl" />
+                        <div class="no-image" *ngIf="!vm?.vac?.event?.logoImageUrl"></div>
+                      </a>
+                    </div>
+                    <div class="company">
+                      <div class="logo">
+                        <a [routerLink]="['/companies', vm.vac.event.company.id]">
+                          <img *ngIf="vm?.vac?.event?.company?.thumbnailImageUrl" [src]="vm.vac.event.company.thumbnailImageUrl" />
+                          <div class="no-image" *ngIf="!vm?.vac?.event?.company?.thumbnailImageUrl"></div>
+                        </a>
+                      </div>
+                      <div class="name">
+                        <a [routerLink]="['/companies', vm.vac.event.company.id]">{{vm.vac.event.company.name || 'Не указано'}}</a>
+                      </div>
+                      <div class="rating">
+                        <sk-rating [value]="vm.vac.event.company.rating" class="block"></sk-rating>
+                      </div>
+                    </div>
+                    <div class="header">
+                      <div class="text">
+                        <a [routerLink]="['/events', vm.vac.event.id]">{{vm.vac.event.name || 'Не указано'}}</a>
+                      </div>
+                      <div class="extra">
+                        <span>{{vm.vac?.event?.type?.name || 'Не задано'}}</span>
+                        ●
+                        <span>{{vm.vac?.event?.format?.name || 'Не задано'}}</span>
+                      </div>
+                    </div>
+                    <div class="field-set">
+                      <div class="field">
+                        <div class="label icon"><img src="../../../assets/sk-calendar-icon.svg" height="14" /></div>
+                        <div class="value">{{vm.vac?.event.startTime | time}} — {{vm.vac?.event.endTime | time}}</div>
+                      </div>
+                      <div class="field">
+                        <div class="label icon"><img src="../../../assets/sk-place-point-icon.svg" height="14" /></div>
+                        <div class="value">
+                          <div>{{vm.vac?.event?.city?.name || 'Не указано'}},</div>
+                          <div [title]="event?.address">{{vm.vac?.event?.address || 'Не указано'}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field-set">
+                      <div class="field">
+                        <div class="label">сегмент</div>
+                        <div class="value">{{vm.vac.event.segment.name || 'Не указано'}}</div>
+                      </div>
+                      <div class="field">
+                        <div class="label">гостей</div>
+                        <div class="value">{{vm.vac?.event?.estimatedGuestsCount || 'Не указано'}}</div>
+                      </div>
+                    </div>
+                    <div class="vacancies">
+                      <div class="label">вакансии</div>
+                      <div class="data">
+                        <div> <img src="../../../assets/sk-cook-icon.svg" height="16" />{{vm.vac.event.connectedCooksCount}}/{{vm.vac.event.totalCooksCount}}</div>
+                        <div> <img src="../../../assets/sk-barman-icon.svg" height="16" />{{vm.vac.event.connectedBarmansCount}}/{{vm.vac.event.totalBarmansCount}}</div>
+                        <div> <img src="../../../assets/sk-waiter-icon.svg" height="16" />{{vm.vac.event.connectedWaitersCount}}/{{vm.vac.event.totalWaitersCount}}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="badge v2" *ngIf="vm.isEventOver">
+                    Прошедшее
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

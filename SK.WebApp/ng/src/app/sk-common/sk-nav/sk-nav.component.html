@@ -1,0 +1,56 @@
+<div class="logo">
+  <img src="../../../assets/sk-logo-white.svg" style="height: 100%" (click)="onLogoClick()" />
+</div>
+
+<div class="nav main">
+  <a class="item" *ngIf="canSeeVacancies" [routerLink]="['/vacancies']" routerLinkActive="active">Вакансии</a>
+  <a class="item" *ngIf="canSeeExperts" [routerLink]="['/experts']" routerLinkActive="active">Специалисты</a>
+  <a class="item" *ngIf="canSeeExperts || canSeeVacancies" [routerLink]="['/connections']" routerLinkActive="active">
+    Отклики
+    <span *ngIf="newIncomingConnectionsCount">
+      ({{newIncomingConnectionsCount}})
+    </span>
+  </a>
+  <a class="item" *ngIf="data" [routerLink]="['/dialogs']" routerLinkActive="active">
+    Диалоги
+    <span *ngIf="(chat.newIncomingMessages$ | async)?.messages?.length">
+      ({{(chat.newIncomingMessages$ | async)?.messages?.length}})
+    </span>
+  </a>
+</div>
+
+<div class="nav last">
+  <button class="item" *ngIf="!data" (click)="signIn()">Войти</button>
+
+  <a class="item account" *ngIf="data?.expertProfile" [routerLink]="['/experts', data?.expertProfile.id]" routerLinkActive="active">
+    {{data.displayName}}
+    <span *ngIf="!data.expertProfile.isPublished">(не опубликовано)</span>
+  </a>
+
+  <a class="item account" *ngIf="data?.company" [routerLink]="['/companies', data.company.id]" routerLinkActive="active">
+    {{data.company.name}}
+    <span *ngIf="!data.company.isPublished">(не опубликовано)</span>
+  </a>
+
+  <ng-container *ngIf="data?.company">
+    <a class="item img" *ngIf="!(data.company.thumbnailImageUrl)" [routerLink]="['/companies', data.company.id]" routerLinkActive="active">
+      <img src="../../../assets/sk-company-default-icon.svg" />
+    </a>
+
+    <a class="item img" *ngIf="data.company.thumbnailImageUrl" [routerLink]="['/companies', data.company.id]" routerLinkActive="active">
+      <img [src]="data.company.thumbnailImageUrl" />
+    </a>
+  </ng-container>
+
+  <ng-container *ngIf="data?.expertProfile">
+    <a class="item img" *ngIf="!(data.expertProfile.thumbnailImageUrl)" [routerLink]="['/experts', data?.expertProfile.id]" routerLinkActive="active">
+      <img src="../../../assets/sk-expert-default-icon.svg" />
+    </a>
+
+    <a class="item img" *ngIf="data.expertProfile.thumbnailImageUrl" [routerLink]="['/experts', data?.expertProfile.id]" routerLinkActive="active">
+      <img [src]="data.expertProfile.thumbnailImageUrl" />
+    </a>
+  </ng-container>
+
+  <button class="item" *ngIf="data" (click)="signOut()">Выйти</button>
+</div>
